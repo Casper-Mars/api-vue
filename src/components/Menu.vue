@@ -66,8 +66,11 @@
                     return;
                 }
                 this.$axios({
-                    url: "/api/interface?id=" + id,
+                    url: "/api/interface",
                     method: "get",
+                    params:{
+                        id:id
+                    },
                     dataType: "json"
                 }).then((data) => {
                     let tmp = data.data.data;
