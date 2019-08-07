@@ -16,5 +16,6 @@ module.exports =  {
             }
         }
 
-    }
-}
+   },
+    outputDir:'../vue-container/src/main/resources/static',
+};
