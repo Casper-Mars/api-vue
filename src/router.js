@@ -18,5 +18,10 @@ export default new Router({
             name: 'helloworld',
             component: () => import('@/views/InterfaceView')
         },
+        {
+            path: '/index',
+            name: 'index',
+            component: () => import('@/views/IndexPage')
+        },
     ]
 })

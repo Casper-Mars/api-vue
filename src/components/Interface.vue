@@ -20,7 +20,7 @@
                     <el-row><h3>3 请求参数描述</h3></el-row>
                     <el-row>
                         <!--请求参数示例-->
-                        <JsonTestPenal v-if="interface.param.isJson" msg="请求参数示例" :jsonData="interface.param.jsonData"></JsonTestPenal>
+                        <JsonTestPenal v-if="interface.param.isJson" msg="请求参数示例" :jsonData="parseJson(interface.param.jsonData)"></JsonTestPenal>
                         <!--请求参数列表-->
                         <ParamTable :tableData="interface.param.tableData" msg="请求参数列表"></ParamTable>
                     </el-row>
@@ -31,7 +31,7 @@
                     <!--响应参数列表-->
                     <ParamTable :table-data="interface.resp.tableData" msg="响应参数列表"></ParamTable>
                     <!--响应参数示例-->
-                    <JsonTestPenal msg="响应参数示例" :json-data="interface.resp.jsonData"/>
+                    <JsonTestPenal msg="响应参数示例" :json-data="parseJson(interface.resp.jsonData)"/>
                 </el-row>
             </el-main>
         </el-container>
@@ -52,14 +52,12 @@
         props:{
           interface: Object
         },
-        // computed:{
-        //
-        // },
-        // data() {
-        //     return {
-        //         interface:this.$store.getters.interface
-        //     }
-        // }
+        methods: {
+            parseJson (jsonStr) {
+                console.log(jsonStr)
+                return JSON.stringify(JSON.parse(jsonStr), null, 4)
+            }
+        }
     }
 </script>
 

@@ -11,7 +11,7 @@ const state = {
         param: {
             isJson: true,
             isArray: false,
-            jsonData: "param:{\nname:'',\nage:,\nteacher:{\nname:'',\n},\n}",
+            jsonData: '{"name": "name", "desc": "姓名", "type": "String"}',
             tableData: [
                 {
                     id: 10,
@@ -70,7 +70,10 @@ const state = {
         resp: {
             isJson: true,
             isArray: false,
-            jsonData: "param:{\nname:'',\nage:,\nteacher:{\nname:'',\n},\n}",
+            jsonData: '{"name": "0",' +
+                ' "desc": "0",' +
+                ' "type": "0"' +
+                '}',
             tableData: [
                 {
                     id: 1,

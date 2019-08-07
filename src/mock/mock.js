@@ -60,7 +60,7 @@ Mock.mock(RegExp("/api/interface" + ".*"), 'get', (id) => {
         param: {
             isJson: false,
             isArray: false,
-            jsonData: "",
+            jsonData: '{name: "name", desc: "姓名", type: "String",}',
             tableData: [
                 {
                     name: "name",

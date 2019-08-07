@@ -17,5 +17,5 @@ module.exports =  {
         }
 
    },
-    outputDir:'../vue-container/src/main/resources/static',
+    outputDir:'../api-container/src/main/resources/static',
 };

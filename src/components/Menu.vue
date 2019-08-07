@@ -46,12 +46,12 @@
                 menuList: [
                     {
                         interfaceId: 0,
-                        index: "/",
+                        index: "/index",
                         name: "主页",
                         children: [
                             {
                                 interfaceId: 0,
-                                index: "/",
+                                index: "/index",
                                 name: "主页"
                             }
                         ]
