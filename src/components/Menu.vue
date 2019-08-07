@@ -68,19 +68,24 @@
                 this.$axios({
                     url: "/api/interface",
                     method: "get",
-                    params:{
-                        id:id
+                    params: {
+                        id: id
                     },
                     dataType: "json"
                 }).then((data) => {
                     let tmp = data.data.data;
-                    let paramList = tmp.param.tableData;
-                    if (!(paramList === undefined || paramList == null)) {
-                        this.deal(paramList);
+                    if (tmp.param != null) {
+                        let paramList = tmp.param.tableData;
+                        if (!(paramList === undefined || paramList == null)) {
+                            this.deal(paramList);
+                        }
                     }
-                    let respList = tmp.resp.tableData;
-                    if (!(respList === undefined || respList == null)) {
-                        this.deal(respList)
+                    if (tmp.resp != null) {
+                        let respList = tmp.resp.tableData;
+                        if (!(respList === undefined || respList == null)) {
+                            this.deal(respList);
+                            // tmp.resp.tableData = respList[0].children;
+                        }
                     }
                     this.$store.dispatch("updateInterface", tmp);
                 });
@@ -107,7 +112,7 @@
                 }
             },
             dealMenu: function (menu) {
-                menu.index = "/interface/" + menu.interfaceId+menu.hash;
+                menu.index = "/interface/" + menu.interfaceId + menu.hash;
                 let children = menu.children;
                 if (children === undefined || children == null || children.length === 0) {
                     return;

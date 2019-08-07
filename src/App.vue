@@ -4,7 +4,7 @@
             <el-header>
 
             </el-header>
-            <el-container>
+            <el-container :style="{height: height}">
                 <el-aside>
                     <Menu/>
                 </el-aside>
@@ -24,6 +24,15 @@
         name: 'main',
         components: {
             Menu
+        },
+        data(){
+          return{
+              height:""
+          }
+        },
+        mounted(){
+            debugger;
+            this.height=document.body.clientHeight+'px';
         }
     }
 
