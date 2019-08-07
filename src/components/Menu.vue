@@ -5,8 +5,8 @@
                 router
                 default-active="/"
         >
-            <template v-for="menu in menuList">
-                <el-submenu :index="menu.index">
+            <template v-for="(menu,index) in menuList">
+                <el-submenu :index="menu.index+index">
                     <template slot="title">
                         <i class="el-icon-location"></i>
                         <span>{{menu.name}}</span>
@@ -107,7 +107,7 @@
                 }
             },
             dealMenu: function (menu) {
-                menu.index = "/interface/" + menu.interfaceId;
+                menu.index = "/interface/" + menu.interfaceId+menu.hash;
                 let children = menu.children;
                 if (children === undefined || children == null || children.length === 0) {
                     return;
