@@ -1,10 +1,10 @@
 <template>
     <div id="app">
-        <el-container>
-            <el-header>
+        <el-container style="padding: 0">
+            <el-header :style="{height: headerHeight+'px'}">
 
             </el-header>
-            <el-container :style="{height: height}">
+            <el-container :style="{height: (curHeight-headerHeight-16)+'px'}">
                 <el-aside>
                     <Menu/>
                 </el-aside>
@@ -14,6 +14,7 @@
             </el-container>
         </el-container>
     </div>
+
 </template>
 
 <script>
@@ -25,14 +26,15 @@
         components: {
             Menu
         },
-        data(){
-          return{
-              height:""
-          }
+        data() {
+            return {
+                curHeight: document.documentElement.clientHeight,
+                headerHeight: 100
+            }
         },
-        mounted(){
-            debugger;
-            this.height=document.body.clientHeight+'px';
+        mounted() {
+        debugger;
+            this.curHeight = document.documentElement.clientHeight;
         }
     }
 
