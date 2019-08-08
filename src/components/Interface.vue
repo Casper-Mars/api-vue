@@ -55,7 +55,7 @@
         methods: {
             parseJson (jsonStr) {
                 console.log(jsonStr)
-                return JSON.stringify(JSON.parse(jsonStr), null, 4)
+                return JSON.stringify(jsonStr, null, 4)
             }
         }
     }

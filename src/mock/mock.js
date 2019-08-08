@@ -58,7 +58,7 @@ Mock.mock(RegExp("/api/interface" + ".*"), 'get', (id) => {
         requestMethod: "post",
         requestUrl: "/api/login",
         param: {
-            isJson: false,
+            isJson: true,
             isArray: false,
             jsonData: '{name: "name", desc: "姓名", type: "String",}',
             tableData: [

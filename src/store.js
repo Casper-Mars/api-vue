@@ -11,7 +11,7 @@ const state = {
         param: {
             isJson: true,
             isArray: false,
-            jsonData: '{"name": "name", "desc": "姓名", "type": "String"}',
+            jsonData: {"name": "name", "desc": "姓名", "type": "String"},
             tableData: [
                 {
                     id: 10,

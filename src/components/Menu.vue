@@ -78,13 +78,16 @@
                         let paramList = tmp.param.tableData;
                         if (!(paramList === undefined || paramList == null)) {
                             this.deal(paramList);
+                            tmp.param.jsonData = this.getJsonData(paramList);
                         }
+
                     }
                     if (tmp.resp != null) {
                         let respList = tmp.resp.tableData;
                         if (!(respList === undefined || respList == null)) {
                             this.deal(respList);
                             // tmp.resp.tableData = respList[0].children;
+                            tmp.resp.jsonData = this.getJsonData(respList);
                         }
                     }
                     this.$store.dispatch("updateInterface", tmp);
@@ -120,7 +123,34 @@
                 for (let i = 0; i < children.length; i++) {
                     this.dealMenu(children[i]);
                 }
-            }
+            },
+            getJsonData: function (paramList) {
+                let obj = {};
+                if (paramList == null || paramList.length === 0) {
+                    return null;
+                }
+                for (let i = 0; i < paramList.length; i++) {
+                    let param = paramList[i];
+                    let child = null;
+                    if (param.children != null) {
+                        child = this.getJsonData(param.children);
+                    }
+                    if (param.isArray) {
+                        if (child != null) {
+                            obj[param.name] = [child];
+                        } else {
+                            obj[param.name] = [];
+                        }
+                    } else {
+                        if (child != null) {
+                            obj[param.name] = child;
+                        } else {
+                            obj[param.name] = '';
+                        }
+                    }
+                }
+                return obj;
+            },
         }
     }
 </script>
