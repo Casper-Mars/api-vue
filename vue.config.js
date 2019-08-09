@@ -6,7 +6,7 @@ module.exports = {
         // 自动启动浏览器
         open: false,
         proxy: {
-            "/api": {
+            "/api-doc/api": {
                 target: "http://119.23.28.6:18080/api-doc/api",
                 changeOrigin: true,
                 ws: true,

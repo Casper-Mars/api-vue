@@ -30,7 +30,7 @@
         name: "Menu",
         mounted() {
             this.$axios({
-                url: "/api/menu",
+                url: "/api-doc/api/menu",
                 method: "get"
             }).then((data) => {
                 let menuTmp = data.data.data;
@@ -128,7 +128,7 @@
                     return;
                 }
                 this.$axios({
-                    url: "/api/interface",
+                    url: "/api-doc/api/interface",
                     method: "get",
                     params: {
                         id: id
