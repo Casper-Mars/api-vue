@@ -148,8 +148,8 @@
                         let respList = tmp.resp.tableData;
                         if (!(respList === undefined || respList == null)) {
                             this.deal(respList);
-                            // tmp.resp.tableData = respList[0].children;
-                            tmp.resp.jsonData = this.getJsonData(respList);
+                            tmp.resp.tableData = respList[0].children;
+                            tmp.resp.jsonData = this.getJsonData(respList)[''];
                         }
                     }
                     this.$store.dispatch("updateInterface", tmp);
@@ -157,7 +157,7 @@
             },
             dealChild: function (param, id) {
                 param.id = ++id;
-                param.isRequire = param.isRequire ? "必传" : "否";
+                param.require = param.require ? "必传" : "否";
                 let child = param.children;
                 if (child === undefined || child == null || child.length === 0) {
                     return param;
@@ -197,7 +197,7 @@
                     if (param.children != null) {
                         child = this.getJsonData(param.children);
                     }
-                    if (param.isArray) {
+                    if (param.array) {
                         if (child != null) {
                             obj[param.name] = [child];
                         } else {
