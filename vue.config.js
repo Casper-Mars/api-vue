@@ -1,4 +1,4 @@
-module.exports =  {
+module.exports = {
     devServer: {
         port: 8082,
         host: "localhost",
@@ -7,7 +7,7 @@ module.exports =  {
         open: false,
         proxy: {
             "/api": {
-                target:  "http://119.23.28.6:18080/api",
+                target: "http://119.23.28.6:18080/api",
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
@@ -16,6 +16,10 @@ module.exports =  {
             }
         }
 
-   },
-    outputDir:'../api-container/src/main/resources/static',
+    },
+    outputDir: '../api-container/src/main/resources/static',
+    publicPath: process.env.NODE_ENV === 'production'
+        ? '/api-doc/'
+        : '/',
+
 };
