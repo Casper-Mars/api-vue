@@ -5,16 +5,29 @@
                 <span>API文档</span>
             </div>
             <div class="header-box">
-                <el-input v-model="input" placeholder="搜索接口"></el-input>
-                <el-button><i class="el-icon-search"></i></el-button>
+                <el-input @keyup.enter.native="searchMenu" v-model="keyword" placeholder="搜索接口"></el-input>
+                <el-button v-on:click="searchMenu"><i class="el-icon-search"></i></el-button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import EventBus from '../eventBus'
     export default {
-        name: "Header"
+        name: "Header",
+        data () {
+            return {
+                keyword: ''
+            }
+        },
+        methods: {
+            searchMenu() {
+                EventBus.$emit("searchMenu", {
+                    'keyword': this.keyword
+                })
+            }
+        }
     }
 </script>
 

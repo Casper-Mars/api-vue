@@ -5,15 +5,15 @@
                 router
                 default-active="/"
         >
-            <template v-for="(menu,index) in menuList">
-                <el-submenu :index="menu.index+index">
+            <template v-for="(menu,index) in showMenu">
+                <el-submenu v-if="menu.isShow" :index="menu.index+index">
                     <template slot="title">
                         <i class="el-icon-location"></i>
-                        <span>{{menu.name}}</span>
+                        <span>{{menu.name}}{{menu.isShow}}</span>
                     </template>
                     <el-menu-item-group>
                         <template v-for="item in menu.children">
-                            <el-menu-item :index="item.index" v-on:click="get(item.interfaceId)">
+                            <el-menu-item v-if="item.isShow" :index="item.index" v-on:click="get(item.interfaceId)">
                                 {{item.name}}
                             </el-menu-item>
                         </template>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+    import EventBus from '../eventBus'
     export default {
         name: "Menu",
         mounted() {
@@ -39,6 +40,11 @@
                     this.dealMenu(menuTmp[i]);
                     this.menuList.push(menuTmp[i]);
                 }
+                this.initMenuShow()
+            })
+            EventBus.$on("searchMenu", item => {
+                let keyword = item.keyword
+                this.filtrateMenu(keyword)
             })
         },
         data() {
@@ -56,10 +62,66 @@
                             }
                         ]
                     }
-                ]
+                ],
+                showMenu: []
             }
         },
         methods: {
+            initMenuShow() {
+                for (let i = 0 ; i<this.menuList.length ; i++) {
+                    let menu = this.menuList[i]
+                    menu.isShow = true
+                    let children = menu.children
+                    for (let j = 0 ; j<children.length ; j++){
+                        children[j].isShow = true
+                    }
+                }
+                // 简单地实现克隆对象。这样无法克隆对象中的方法
+                this.showMenu = JSON.parse(JSON.stringify(this.menuList));
+            },
+            /**
+             * 根据关键字过滤菜单
+             * @param keyword
+             */
+            filtrateMenu(keyword) {
+                this.initMenuShow()
+                console.log(this.menuList)
+                console.log(this.showMenu)
+                for(let i = 0 ; i< this.showMenu.length ; i++) {
+                    let menuItem = this.showMenu[i]
+                    if (menuItem.name.indexOf(keyword)!==-1 || menuItem.index.indexOf(keyword)!==-1) {
+                        continue
+                    }
+                    let hasMatched = this.filtrateChildren(menuItem.children, keyword)
+                    console.log(hasMatched);
+                    if (!hasMatched) {
+                        this.showMenu.splice(i, 1)
+                        i--
+                    }
+                }
+                console.log(this.menuList)
+                console.log(this.showMenu)
+            },
+            /**
+             * 过滤二级菜单
+             * @param childrenList
+             * @param keyword
+             */
+            filtrateChildren(childrenList, keyword) {
+                let hasMatched = false
+                for(let i   = 0 ; i< childrenList.length ; i++) {
+                    let item = childrenList[i]
+                    if (item.name.indexOf(keyword)!==-1 || item.index.indexOf(keyword)!==-1) {
+                        hasMatched = true
+                        continue
+                    }
+                    // 去掉不匹配的菜单项
+                    // item.isShow = false
+                    childrenList.splice(i, 1)
+                    i--
+                }
+                return hasMatched
+            },
             get: function (id) {
                 console.log(id);
                 if (id === '0' || id === 0) {
