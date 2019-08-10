@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './components/MainPage'
+import Home from './views/MainPage'
 
 Vue.use(Router);
 
@@ -15,7 +15,7 @@ export default new Router({
         },
         {
             path: '/interface/:id',
-            name: 'helloworld',
+            name: 'interface',
             component: () => import('@/views/InterfaceView')
         },
         {
@@ -23,5 +23,11 @@ export default new Router({
             name: 'index',
             component: () => import('@/views/IndexPage')
         },
+        {
+            path: '/setting',
+            name: 'setting',
+            component: () => import('@/views/SettingView')
+        },
+
     ]
 })

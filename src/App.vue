@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import Main from  './components/MainPage'
+    import Main from './views/MainPage'
 
     export default {
         name: 'main',

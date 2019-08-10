@@ -65,7 +65,12 @@
                                 interfaceId: 0,
                                 index: "/index",
                                 name: "主页"
-                            }
+                            },
+                            {
+                                interfaceId: 0,
+                                index: "/setting",
+                                name: "设置"
+                            },
                         ]
                     }
                 ],

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import Interface from "@/components/Interface";
+    import Interface from "@/components/interface/Interface";
 
     export default {
         name: "InterfaceView",
