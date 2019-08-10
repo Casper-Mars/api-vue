@@ -75,9 +75,9 @@
         methods: {
             initMenuShow() {
                 for (let i = 0; i < this.menuList.length; i++) {
-                    let menu = this.menuList[i]
-                    menu.isShow = true
-                    let children = menu.children
+                    let menu = this.menuList[i];
+                    menu.isShow = true;
+                    let children = menu.children;
                     for (let j = 0; j < children.length; j++) {
                         children[j].isShow = true
                     }
@@ -90,18 +90,18 @@
              * @param keyword
              */
             filtrateMenu(keyword) {
-                this.initMenuShow()
-                console.log(this.menuList)
-                console.log(this.showMenu)
+                this.initMenuShow();
+                console.log(this.menuList);
+                console.log(this.showMenu);
                 for (let i = 0; i < this.showMenu.length; i++) {
-                    let menuItem = this.showMenu[i]
+                    let menuItem = this.showMenu[i];
                     if (menuItem.name.indexOf(keyword) !== -1 || menuItem.index.indexOf(keyword) !== -1) {
                         continue
                     }
                     let hasMatched = this.filtrateChildren(menuItem.children, keyword)
                     console.log(hasMatched);
                     if (!hasMatched) {
-                        this.showMenu.splice(i, 1)
+                        this.showMenu.splice(i, 1);
                         i--
                     }
                 }
@@ -114,16 +114,16 @@
              * @param keyword
              */
             filtrateChildren(childrenList, keyword) {
-                let hasMatched = false
+                let hasMatched = false;
                 for (let i = 0; i < childrenList.length; i++) {
-                    let item = childrenList[i]
+                    let item = childrenList[i];
                     if (item.name.indexOf(keyword) !== -1 || item.index.indexOf(keyword) !== -1) {
-                        hasMatched = true
+                        hasMatched = true;
                         continue
                     }
                     // 去掉不匹配的菜单项
                     // item.isShow = false
-                    childrenList.splice(i, 1)
+                    childrenList.splice(i, 1);
                     i--
                 }
                 return hasMatched
@@ -133,33 +133,33 @@
                 if (id === '0' || id === 0) {
                     return;
                 }
-                this.$axios({
-                    url: "/api/interface",
-                    method: "get",
-                    params: {
-                        id: id
-                    },
-                    dataType: "json"
-                }).then((data) => {
-                    let tmp = data.data.data;
-                    if (tmp.param != null) {
-                        let paramList = tmp.param.tableData;
-                        if (!(paramList === undefined || paramList == null)) {
-                            this.deal(paramList);
-                            tmp.param.jsonData = this.getJsonData(paramList);
+                this.$api.get(
+                    "/api/interface",
+                    {id:id},
+                    (data)=>{
+                        let tmp = data.data;
+                        if (tmp.param != null) {
+                            let paramList = tmp.param.tableData;
+                            if (!(paramList === undefined || paramList == null)) {
+                                this.deal(paramList);
+                                tmp.param.jsonData = this.getJsonData(paramList);
+                            }
+
                         }
+                        if (tmp.resp != null) {
+                            let respList = tmp.resp.tableData;
+                            if (!(respList === undefined || respList == null)) {
+                                this.deal(respList);
+                                tmp.resp.tableData = respList[0].children;
+                                tmp.resp.jsonData = this.getJsonData(respList)[''];
+                            }
+                        }
+                        this.$store.dispatch("updateInterface", tmp);
+                    },
+                    (data)=>{
 
                     }
-                    if (tmp.resp != null) {
-                        let respList = tmp.resp.tableData;
-                        if (!(respList === undefined || respList == null)) {
-                            this.deal(respList);
-                            tmp.resp.tableData = respList[0].children;
-                            tmp.resp.jsonData = this.getJsonData(respList)[''];
-                        }
-                    }
-                    this.$store.dispatch("updateInterface", tmp);
-                });
+                );
             },
             dealChild: function (param, id) {
                 param.id = ++id;

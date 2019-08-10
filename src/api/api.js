@@ -8,8 +8,8 @@ function apiCall(url, method, headers, params, success, failure) {
     axios({
         url: url,
         method: method,
-        data: method === 'POST' || method === 'PUT' ? params : null,
-        params: method === 'GET' || method === 'DELETE' ? params : null,
+        data: method === 'post' || method === 'put' ? params : null,
+        params: method === 'get' || method === 'delete' ? params : null,
     }).then((data) => {
         if (data.status === 200) {
             success(data.data);

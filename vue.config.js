@@ -11,12 +11,12 @@ module.exports = {
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
-                    '^/api':''
+                    '^/api': ''
                 }
             }
         }
 
     },
     outputDir: '../api-container/src/main/resources/static',
-    publicPath: process.env.NODE_ENV === 'production'? '/api-doc/': '/',
+    publicPath: process.env.NODE_ENV === 'production' ? '/api-doc/' : '/',
 };
