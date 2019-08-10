@@ -26,22 +26,28 @@
 
 <script>
     import EventBus from '../eventBus'
+
     export default {
         name: "Menu",
         mounted() {
-            this.$axios({
-                url: "/api-doc/api/menu",
-                method: "get"
-            }).then((data) => {
-                let menuTmp = data.data.data;
-                console.log(data);
-                console.log(menuTmp);
-                for (let i = 0; i < menuTmp.length; i++) {
-                    this.dealMenu(menuTmp[i]);
-                    this.menuList.push(menuTmp[i]);
+
+            this.$api.get(
+                "/api/menu",
+                null,
+                (data) => {
+                    let menuTmp = data.data;
+                    console.log(data);
+                    console.log(menuTmp);
+                    for (let i = 0; i < menuTmp.length; i++) {
+                        this.dealMenu(menuTmp[i]);
+                        this.menuList.push(menuTmp[i]);
+                    }
+                    this.initMenuShow()
+                },
+                (data) => {
+
                 }
-                this.initMenuShow()
-            })
+            );
             EventBus.$on("searchMenu", item => {
                 let keyword = item.keyword
                 this.filtrateMenu(keyword)
@@ -68,11 +74,11 @@
         },
         methods: {
             initMenuShow() {
-                for (let i = 0 ; i<this.menuList.length ; i++) {
+                for (let i = 0; i < this.menuList.length; i++) {
                     let menu = this.menuList[i]
                     menu.isShow = true
                     let children = menu.children
-                    for (let j = 0 ; j<children.length ; j++){
+                    for (let j = 0; j < children.length; j++) {
                         children[j].isShow = true
                     }
                 }
@@ -87,9 +93,9 @@
                 this.initMenuShow()
                 console.log(this.menuList)
                 console.log(this.showMenu)
-                for(let i = 0 ; i< this.showMenu.length ; i++) {
+                for (let i = 0; i < this.showMenu.length; i++) {
                     let menuItem = this.showMenu[i]
-                    if (menuItem.name.indexOf(keyword)!==-1 || menuItem.index.indexOf(keyword)!==-1) {
+                    if (menuItem.name.indexOf(keyword) !== -1 || menuItem.index.indexOf(keyword) !== -1) {
                         continue
                     }
                     let hasMatched = this.filtrateChildren(menuItem.children, keyword)
@@ -109,9 +115,9 @@
              */
             filtrateChildren(childrenList, keyword) {
                 let hasMatched = false
-                for(let i   = 0 ; i< childrenList.length ; i++) {
+                for (let i = 0; i < childrenList.length; i++) {
                     let item = childrenList[i]
-                    if (item.name.indexOf(keyword)!==-1 || item.index.indexOf(keyword)!==-1) {
+                    if (item.name.indexOf(keyword) !== -1 || item.index.indexOf(keyword) !== -1) {
                         hasMatched = true
                         continue
                     }
@@ -128,7 +134,7 @@
                     return;
                 }
                 this.$axios({
-                    url: "/api-doc/api/interface",
+                    url: "/api/interface",
                     method: "get",
                     params: {
                         id: id
