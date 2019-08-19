@@ -6,7 +6,7 @@
                 <Header></Header>
             </el-header>
             <el-container :style="{height: (curHeight-headerHeight-16)+'px'}">
-                <el-aside width="200px">
+                <el-aside width="300px">
                     <Menu></Menu>
                 </el-aside>
                 <el-main>
@@ -19,8 +19,11 @@
 </template>
 
 <script>
+
     import Menu from '../components/Menu'
     import Header from '../components/Header'
+    // import Unsplash, { toJson } from "unsplash-js";
+
     export default {
         components: {
             Header,
@@ -34,6 +37,16 @@
         },
         mounted() {
             this.curHeight = document.documentElement.clientHeight;
+            // unsplash SDK测试
+            // const unsplash = new Unsplash({
+            //     applicationId: "31f60798ed8053f372f4ef4b7e0033f3bdfda41b8184e4d70b096eba42545414",
+            //     secret: "d32260cf7e73772b17ce272bef7807ea9e3b28cbbe308f7da1628cf133030979"
+            // });
+            // unsplash.search.photos("神仙", 1)
+            //     .then(toJson)
+            //     .then(json => {
+            //         console.log(json);
+            // });
         },
         name: "MainPage"
     }

@@ -20,7 +20,7 @@
                 <el-row>
                     <!--请求参数示例-->
                     <JsonTestPenal v-if="interface.param.isJson" msg="请求参数示例"
-                                   :jsonData="parseJson(interface.param.jsonData)"></JsonTestPenal>
+                                   :jsonData="interface.param.jsonData"></JsonTestPenal>
                     <!--请求参数列表-->
                     <ParamTable :tableData="interface.param.tableData" msg="请求参数列表"></ParamTable>
                 </el-row>
@@ -31,7 +31,7 @@
                 <!--响应参数列表-->
                 <ParamTable :table-data="interface.resp.tableData" msg="响应参数列表"></ParamTable>
                 <!--响应参数示例-->
-                <JsonTestPenal msg="响应参数示例" :json-data="parseJson(interface.resp.jsonData)" :readOnly="true"/>
+                <JsonTestPenal msg="响应参数示例" :json-data="interface.resp.jsonData" :readOnly="true"/>
 
             </el-row>
         </el-main>
@@ -50,11 +50,6 @@
         components: {
             ParamTable,
             JsonTestPenal
-        },
-        methods: {
-            parseJson(jsonStr) {
-                return this.$util.formatJson(jsonStr);
-            }
         }
     }
 </script>

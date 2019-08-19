@@ -9,6 +9,8 @@ import UtilTool from "@/util/UtilTool";
 import 'element-ui/lib/theme-chalk/index.css'
 // import './mock/mock'
 import './registerServiceWorker'
+import JsonViewer from 'vue-json-viewer'
+Vue.use(JsonViewer)
 
 Vue.use(ElementUI);
 Vue.prototype.$api = api;

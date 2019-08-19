@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 const state = {
+    remote: "/remote",
     curInterface: {
         title: "测试接口",
         requestMethod: "post",
@@ -70,10 +71,7 @@ const state = {
         resp: {
             isJson: true,
             isArray: false,
-            jsonData: '{"name": "0",' +
-                ' "desc": "0",' +
-                ' "type": "0"' +
-                '}',
+            jsonData: {"name": "name", "desc": "姓名", "type": "String"},
             tableData: [
                 {
                     id: 1,
@@ -149,6 +147,9 @@ const getters = {
     respJsonData() {
         return state.curInterface.resp.jsonData;
     },
+    remote() {
+        return state.remote;
+    }
 };
 const mutations = {
     setInterface(state, target) {

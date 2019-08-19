@@ -9,7 +9,7 @@
                 <el-submenu v-if="menu.isShow" :index="menu.index+index">
                     <template slot="title">
                         <i class="el-icon-location"></i>
-                        <span>{{menu.name}}{{menu.isShow}}</span>
+                        <span>{{menu.name}}</span>
                     </template>
                     <el-menu-item-group>
                         <template v-for="item in menu.children">
@@ -33,6 +33,7 @@
 
             this.$api.get(
                 "/api/menu",
+                null,
                 null,
                 (data) => {
                     let menuTmp = data.data;
@@ -141,6 +142,7 @@
                 this.$api.get(
                     "/api/interface",
                     {id:id},
+                    null,
                     (data)=>{
                         let tmp = data.data;
                         if (tmp.param != null) {

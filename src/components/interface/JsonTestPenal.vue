@@ -3,12 +3,13 @@
         <el-row><h4>{{msg}}</h4></el-row>
         <el-row>
             <el-col>
-                <el-input
-                        type="textarea"
-                        v-model="jsonData"
-                        :autosize="rows"
-                        :readonly="readOnly"
-                />
+                <json-viewer
+                        :value="jsonData"
+                        :expand-depth=5
+                        copyable
+                        boxed
+                        sor>
+                </json-viewer>
             </el-col>
         </el-row>
     </el-row>
@@ -23,20 +24,7 @@
             readOnly:Boolean
         },
 
-        methods: {},
-        computed: {
-            rows: function () {
-                let rows = 7;
-                if (this.jsonData !== null) {
-                    let tmp = this.jsonData.split("\n");
-                    rows = tmp.length;
-                }
-                return {
-                    minRows: 2,
-                    maxRows: rows
-                };
-            }
-        }
+        methods: {}
     }
 </script>
 

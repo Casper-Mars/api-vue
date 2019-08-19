@@ -23,6 +23,21 @@
             </el-row>
         </el-row>
 
+        <el-row>
+            <el-row>
+                <el-col>
+                    <h3>设置服务器地址</h3>
+                </el-col>
+            </el-row>
+            <el-row>
+                <div class="flex-box">
+                    <el-col :span="4">
+                        <el-input v-model="remote"></el-input>
+                    </el-col>
+                    <el-button v-on:click="saveRemote">保存</el-button>
+                </div>
+            </el-row>
+        </el-row>
 
     </div>
 </template>
@@ -32,6 +47,7 @@
         name: "SettingView",
         data() {
             return {
+                remote: '',
                 formModel: {
                     headers: [
                         {
@@ -62,7 +78,17 @@
                 if (index !== -1) {
                     this.formModel.headers.splice(index, 1);
                 }
+            },
+            saveRemote() {
+                localStorage.setItem("remote", this.remote)
+            },
+            initRemote() {
+                let remote = localStorage.getItem("remote")
+                this.remote = remote
             }
+        },
+        mounted() {
+            this.initRemote()
         }
 
 
@@ -70,5 +96,7 @@
 </script>
 
 <style scoped>
-
+    .flex-box{
+        display: flex;
+    }
 </style>
