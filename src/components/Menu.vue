@@ -145,6 +145,7 @@
                     null,
                     (data)=>{
                         let tmp = data.data;
+                        tmp.id = id;
                         if (tmp.param != null) {
                             let paramList = tmp.param.tableData;
                             if (!(paramList === undefined || paramList == null)) {
@@ -161,6 +162,7 @@
                                 tmp.resp.jsonData = this.getJsonData(respList)[''];
                             }
                         }
+                        debugger;
                         this.$store.dispatch("updateInterface", tmp);
                     },
                     (data)=>{

@@ -1,6 +1,5 @@
 <template>
     <div id="setting">
-
         <el-row>
             <el-row>
                 <el-col>

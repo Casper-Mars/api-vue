@@ -1,6 +1,5 @@
 <template>
     <div id="main">
-
         <el-container>
             <el-header class="header" :style="{height: headerHeight+'px'}">
                 <Header></Header>
@@ -14,7 +13,6 @@
                 </el-main>
             </el-container>
         </el-container>
-
     </div>
 </template>
 
@@ -22,7 +20,6 @@
 
     import Menu from '../components/Menu'
     import Header from '../components/Header'
-    // import Unsplash, { toJson } from "unsplash-js";
 
     export default {
         components: {
