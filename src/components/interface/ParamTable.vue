@@ -23,7 +23,7 @@
                             label="参数类型"
                     ></el-table-column>
                     <el-table-column
-                            prop="isRequire"
+                            prop="require"
                             label="是否必传"
                     ></el-table-column>
                 </el-table>
