@@ -141,9 +141,9 @@
                 }
                 this.$api.get(
                     "/api/interface",
-                    {id:id},
+                    {id: id},
                     null,
-                    (data)=>{
+                    (data) => {
                         let tmp = data.data;
                         tmp.id = id;
                         if (tmp.param != null) {
@@ -162,33 +162,36 @@
                                 tmp.resp.jsonData = this.getJsonData(respList)[''];
                             }
                         }
-                        debugger;
+                    debugger;
                         this.$store.dispatch("updateInterface", tmp);
                     },
-                    (data)=>{
+                    (data) => {
 
                     }
                 );
             },
-            dealChild: function (param, id) {
-                param.id = ++id;
+            dealChild: function (param) {
+                param.id = this.$util.guid();
                 param.require = param.require ? "必传" : "否";
                 let child = param.children;
                 if (child === undefined || child == null || child.length === 0) {
                     return param;
                 }
-                id = param.id;
                 for (let i = 0; i < child.length; i++) {
-                    let tmp = this.dealChild(child[i], id);
-                    id = tmp.id;
+                    // this.dealChild(child[i]);
                 }
                 return param;
             },
             deal: function (list) {
-                let id = 1;
                 for (let i = 0; i < list.length; i++) {
-                    let tmp1 = this.dealChild(list[i], id);
-                    id = tmp1.id;
+                    let param = list[i];
+                    param.id = this.$util.guid();
+                    param.require = param.require ? "必传" : "否";
+                    let child = param.children;
+                    if (child === undefined || child == null || child.length === 0) {
+                        continue;
+                    }
+                    this.deal(child);
                 }
             },
             dealMenu: function (menu) {

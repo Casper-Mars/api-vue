@@ -15,6 +15,12 @@
                 </el-row>
             </el-row>
             <el-row>
+                <el-row><h3>模拟次数</h3></el-row>
+                <el-row>
+                    <el-input v-model="times"></el-input>
+                </el-row>
+            </el-row>
+            <el-row>
                 <el-row>
                     <h3>请求头参数</h3>
                     <el-button @click="addHeader" type="primary">添加请求头</el-button>
@@ -69,11 +75,12 @@
         },
         data() {
             return {
-                serviceUrl: this.$store.getters.remote,
+                serviceUrl: localStorage.getItem("remote"),
                 headers: [
                 ],
                 tableData:[
-                ]
+                ],
+                times:1
             }
         },
         methods: {
@@ -88,25 +95,32 @@
             },
             submitTest:function () {
                 debugger;
+                const loading = this.$loading({
+                    lock:true,
+                    text:"请求中......",
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
                 let id = this.interface.id;
                 let address = this.serviceUrl;
                 let headers = this.headers;
+                let times = this.times;
                 this.$api.post(
                     "/api/test/batch",
                     {
                         id:id,
                         address:address,
-                        times:10,
+                        times:times,
                         headers:headers
                     },
                     null,
                     (data)=>{
                         console.log(data);
                         this.tableData = data;
-
+                        loading.close();
                     },
                     (data)=>{
-
+                        loading.close();
                     }
                 )
 
@@ -118,5 +132,9 @@
 </script>
 
 <style scoped>
+
+    .el-row{
+        margin: 10px;
+    }
 
 </style>

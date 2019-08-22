@@ -4,10 +4,10 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 const state = {
-    isLogin:true,
+    isLogin: false,
     remote: "/remote",
     curInterface: {
-        id:"123123",
+        id: "123123",
         title: "测试接口",
         requestMethod: "post",
         requestUrl: "/api/member/list",
@@ -152,7 +152,7 @@ const getters = {
     remote() {
         return state.remote;
     },
-    login(){
+    login() {
         return state.isLogin;
     }
 
@@ -160,7 +160,11 @@ const getters = {
 const mutations = {
     setInterface(state, target) {
         state.curInterface = target;
+    },
+    openDev(state) {
+        state.isLogin = state;
     }
+
 };
 const actions = {
     updateInterface(context, target) {
