@@ -14,9 +14,13 @@
                 <el-row><h3>2 请求方法</h3></el-row>
                 <el-row>{{interface.requestMethod}}</el-row>
             </el-row>
+            <el-row>
+                <el-row><h3>3 content-type</h3></el-row>
+                <el-row>{{interface.contentType}}</el-row>
+            </el-row>
             <!--请求参数描述-->
             <el-row>
-                <el-row><h3>3 请求参数描述</h3></el-row>
+                <el-row><h3>4 请求参数描述</h3></el-row>
                 <el-row>
                     <!--请求参数示例-->
                     <JsonTestPenal v-if="interface.param.isJson" msg="请求参数示例"
@@ -27,12 +31,11 @@
             </el-row>
             <!--响应参数描述-->
             <el-row>
-                <el-row><h3>4 响应参数描述</h3></el-row>
+                <el-row><h3>5 响应参数描述</h3></el-row>
                 <!--响应参数列表-->
                 <ParamTable :table-data="interface.resp.tableData" msg="响应参数列表"></ParamTable>
                 <!--响应参数示例-->
                 <JsonTestPenal msg="响应参数示例" :json-data="interface.resp.jsonData" :readOnly="true"/>
-
             </el-row>
         </el-main>
     </el-container>

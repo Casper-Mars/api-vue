@@ -11,6 +11,7 @@ const state = {
         title: "测试接口",
         requestMethod: "post",
         requestUrl: "/api/member/list",
+        contentType:"application/json",
         param: {
             isJson: true,
             isArray: false,
