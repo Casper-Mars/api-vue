@@ -25,7 +25,7 @@
                     <h3>请求头参数</h3>
                     <el-button @click="addHeader" type="primary">添加请求头</el-button>
                 </el-row>
-                <el-row v-for="(item,index) in headers" :gutter="10" style="margin: 10px">
+                <el-row v-for="(item,index) in headers" :key="index" :gutter="10" style="margin: 10px">
                     <el-col :span="6">
                         <el-input v-model="item.name"></el-input>
                     </el-col>
@@ -43,8 +43,8 @@
                     <el-row><h3>测试结果</h3></el-row>
                     <el-row>
                         <el-table
-                            :border="true"
-                            :data="tableData"
+                                :border="true"
+                                :data="tableData"
                         >
                             <el-table-column
                                     prop="stateCode"
@@ -58,7 +58,7 @@
                             <el-table-column
                                     prop="respondStr"
                                     label="响应值"
-                                ></el-table-column>
+                            ></el-table-column>
                         </el-table>
                     </el-row>
                 </el-row>
@@ -76,11 +76,9 @@
         data() {
             return {
                 serviceUrl: localStorage.getItem("remote"),
-                headers: [
-                ],
-                tableData:[
-                ],
-                times:1
+                headers: [],
+                tableData: [],
+                times: 1
             }
         },
         methods: {
@@ -93,11 +91,11 @@
                     this.headers.splice(index, 1);
                 }
             },
-            submitTest:function () {
-                debugger;
+            submitTest: function () {
+            debugger;
                 const loading = this.$loading({
-                    lock:true,
-                    text:"请求中......",
+                    lock: true,
+                    text: "请求中......",
                     spinner: 'el-icon-loading',
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
@@ -108,18 +106,18 @@
                 this.$api.post(
                     "/api/test/batch",
                     {
-                        id:id,
-                        address:address,
-                        times:times,
-                        headers:headers
+                        id: id,
+                        address: address,
+                        times: times,
+                        headers: headers
                     },
                     null,
-                    (data)=>{
+                    (data) => {
                         console.log(data);
                         this.tableData = data;
                         loading.close();
                     },
-                    (data)=>{
+                    (data) => {
                         loading.close();
                     }
                 )
@@ -133,7 +131,7 @@
 
 <style scoped>
 
-    .el-row{
+    .el-row {
         margin: 10px;
     }
 
