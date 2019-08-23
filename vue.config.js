@@ -19,4 +19,15 @@ module.exports = {
     },
     outputDir: '../api-container/src/main/resources/static',
     publicPath: process.env.NODE_ENV === 'production' ? '/api-doc/' : '/',
+
+    pwa: {
+        iconPath: {
+            favicon32: 'indexicon.png',
+            favicon16: 'indexicon.png',
+            appleTouchIcon: 'indexicon.png',
+            maskIcon: 'indexicon.png',
+            msTileImage: 'indexicon.png'
+        }
+    },
+
 };

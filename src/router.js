@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/MainPage'
+import Index from "@/views/IndexPage";
 
 Vue.use(Router);
 
@@ -11,7 +11,7 @@ export default new Router({
         {
             path: '/',
             name: 'home',
-            component: Home
+            component: Index
         },
         {
             path: '/interface/:id',
@@ -21,7 +21,7 @@ export default new Router({
         {
             path: '/index',
             name: 'index',
-            component: () => import('@/views/IndexPage')
+            component: Index
         },
         {
             path: '/setting',
