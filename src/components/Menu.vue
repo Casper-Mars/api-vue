@@ -65,12 +65,14 @@
                             {
                                 interfaceId: 0,
                                 index: "/index",
-                                name: "主页"
+                                name: "主页",
+                                path: "/"
                             },
                             {
                                 interfaceId: 0,
                                 index: "/setting",
-                                name: "设置"
+                                name: "设置",
+                                path: "/"
                             },
                         ]
                     }
@@ -123,7 +125,7 @@
                 let hasMatched = false;
                 for (let i = 0; i < childrenList.length; i++) {
                     let item = childrenList[i];
-                    if (item.name.indexOf(keyword) !== -1 || item.index.indexOf(keyword) !== -1) {
+                    if (item.name.indexOf(keyword) !== -1 || item.path.indexOf(keyword) !== -1) {
                         hasMatched = true;
                         continue
                     }
@@ -169,18 +171,6 @@
 
                     }
                 );
-            },
-            dealChild: function (param) {
-                param.id = this.$util.guid();
-                param.require = param.require ? "必传" : "否";
-                let child = param.children;
-                if (child === undefined || child == null || child.length === 0) {
-                    return param;
-                }
-                for (let i = 0; i < child.length; i++) {
-                    // this.dealChild(child[i]);
-                }
-                return param;
             },
             deal: function (list) {
                 for (let i = 0; i < list.length; i++) {
