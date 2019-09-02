@@ -114,13 +114,17 @@
                     null,
                     (data) => {
                         console.log(data);
-                        this.tableData = data;
+                        if(data.code===200){
+                            this.tableData = data.data;
+                        }else {
+                            this.$message.error(data.msg);
+                        }
                         loading.close();
                     },
                     (data) => {
                         loading.close();
                     },
-                    (data)=>{
+                    (data) => {
                         loading.close();
                     }
                 )

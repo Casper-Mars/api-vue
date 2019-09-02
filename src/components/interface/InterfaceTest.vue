@@ -125,7 +125,7 @@
                             this.res = JSON.parse(data.data.respondStr);
                             this.showResult = true;
                         } else {
-                            this.res = data;
+                            this.$message.error(data.msg);
                         }
                         loading.close();
                     },
