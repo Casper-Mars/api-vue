@@ -17,7 +17,7 @@
                     </el-form-item>
                     <el-form-item label="header参数">
                         <div class="header-box">
-                            <el-row v-for="(item,index) in header" :gutter="10" style="width: 100%">
+                            <el-row v-for="(item,index) in header" :key="index" :gutter="10" style="width: 100%">
                                 <el-col :span="4">
                                     <el-input disabled="" v-model="item.name"></el-input>
                                 </el-col>
@@ -131,6 +131,9 @@
                     },
                     (data) => {
                         this.$message.error("请求失败");
+                        loading.close();
+                    },
+                    (data) => {
                         loading.close();
                     }
                 )

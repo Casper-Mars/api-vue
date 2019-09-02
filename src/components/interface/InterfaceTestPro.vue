@@ -119,6 +119,9 @@
                     },
                     (data) => {
                         loading.close();
+                    },
+                    (data)=>{
+                        loading.close();
                     }
                 )
 

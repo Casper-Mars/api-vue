@@ -1,9 +1,10 @@
 import axios from 'axios'
 import config from '../../vue.config'
 import ElementUI from 'element-ui'
+
 // axios.defaults.withCredentials = true
 
-function apiCall(url, method, headers, params, success, failure) {
+function apiCall(url, method, headers, params, success, failure, error) {
     url = config.publicPath + url;
     url = formatUrl(url);
     if (!headers) {
@@ -25,9 +26,12 @@ function apiCall(url, method, headers, params, success, failure) {
             failure(data)
         }
     }).catch(function (err) {
-        let res = err.response
         if (err) {
+            let res = err.response;
             ElementUI.Message.warning('api error, HTTP CODE: ' + res.status)
+            if (error) {
+                error(res);
+            }
         }
     })
 }
@@ -42,16 +46,16 @@ function formatUrl(url) {
 
 
 export default {
-    get: function (url, params, headers = null, success, failure) {
-        return apiCall(url, "get", headers, params, success, failure);
+    get: function (url, params, headers = null, success, failure, error) {
+        return apiCall(url, "get", headers, params, success, failure, error);
     },
-    post: function (url, params, headers = null, success, failure) {
-        return apiCall(url, "post", headers, params, success, failure);
+    post: function (url, params, headers = null, success, failure, error) {
+        return apiCall(url, "post", headers, params, success, failure, error);
     },
-    put: function (url, params, headers = null, success, failure) {
-        return apiCall(url, "put", headers, params, success, failure);
+    put: function (url, params, headers = null, success, failure, error) {
+        return apiCall(url, "put", headers, params, success, failure, error);
     },
-    delete: function (url, params, headers = null, success, failure) {
-        return apiCall(url, "delete", headers, params, success, failure);
+    delete: function (url, params, headers = null, success, failure, error) {
+        return apiCall(url, "delete", headers, params, success, failure, error);
     },
 }
