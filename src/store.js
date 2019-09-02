@@ -4,14 +4,14 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 const state = {
-    isLogin: true,
+    isLogin: false,
     remote: "/remote",
     curInterface: {
         id: "123123",
         title: "测试接口",
         requestMethod: "post",
         requestUrl: "/api/member/list",
-        contentType:"application/json",
+        contentType: "application/json",
         param: {
             isJson: true,
             isArray: false,
