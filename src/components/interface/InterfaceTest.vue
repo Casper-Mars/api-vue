@@ -96,36 +96,42 @@
                 }
             },
             sendRequest() {
-                let url = localStorage.getItem("remote") + this.interface.requestUrl
-                let param
-                if (this.param) {
-                    param = JSON.parse(this.param)
-                }
-                let data = new FormData()
-                for(let key in param) {
-                    data.append(key, param[key])
-                }
 
-                let headers = {}
-                for (let i in this.header) {
-                    let item = this.header[i]
-                    let val = item.value
-                    if (val.trim() !== "") {
-                        headers[item.name] = val
-                    }
-                }
-                debugger;
+                // const loading = this.$loading({
+                //     lock: true,
+                //     text: "请求中......",
+                //     spinner: 'el-icon-loading',
+                //     background: 'rgba(0, 0, 0, 0.7)'
+                // });
+                let id = this.interface.id;
+                let address = localStorage.getItem("remote");
+                let headers = this.header;
+                let params = JSON.parse(this.param);
+            debugger;
                 this.$api.post(
-                    url,
-                    data,
-                    headers,
+                    "/api/test/one",
+                    {
+                        id: id,
+                        address: address,
+                        times: 1,
+                        headers: headers,
+                        params: params
+                    },
+                    null,
                     (data) => {
-                        this.$message.success("请求成功")
-                        this.res = data
-                        this.showResult = true
+                    debugger;
+                        this.$message.success("请求成功");
+                        if (data.code === 200) {
+                            this.res = JSON.parse(data.data.respondStr);
+                            this.showResult = true;
+                        } else {
+                            this.res = data;
+                        }
+                        // loading.close();
                     },
                     (data) => {
-                        this.$message.error("请求失败")
+                        this.$message.error("请求失败");
+                        // loading.close();
                     }
                 )
             }
@@ -148,11 +154,12 @@
 </script>
 
 <style scoped>
-    .flex-box{
+    .flex-box {
         display: flex;
         flex-wrap: nowrap;
     }
-    .header-box{
+
+    .header-box {
         display: inline-flex;
         flex-wrap: wrap;
     }

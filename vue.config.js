@@ -22,11 +22,11 @@ module.exports = {
 
     pwa: {
         iconPath: {
-            favicon32: 'indexicon.png',
-            favicon16: 'indexicon.png',
-            appleTouchIcon: 'indexicon.png',
-            maskIcon: 'indexicon.png',
-            msTileImage: 'indexicon.png'
+            favicon32: 'favicon.ico',
+            favicon16: 'favicon.ico',
+            appleTouchIcon: 'favicon.ico',
+            maskIcon: 'favicon.ico',
+            msTileImage: 'favicon.ico'
         }
     },
 
