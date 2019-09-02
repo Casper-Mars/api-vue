@@ -97,12 +97,12 @@
             },
             sendRequest() {
 
-                // const loading = this.$loading({
-                //     lock: true,
-                //     text: "请求中......",
-                //     spinner: 'el-icon-loading',
-                //     background: 'rgba(0, 0, 0, 0.7)'
-                // });
+                const loading = this.$loading({
+                    lock: true,
+                    text: "请求中......",
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
                 let id = this.interface.id;
                 let address = localStorage.getItem("remote");
                 let headers = this.header;
@@ -127,11 +127,11 @@
                         } else {
                             this.res = data;
                         }
-                        // loading.close();
+                        loading.close();
                     },
                     (data) => {
                         this.$message.error("请求失败");
-                        // loading.close();
+                        loading.close();
                     }
                 )
             }
