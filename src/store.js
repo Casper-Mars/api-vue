@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 const state = {
-    isLogin: false,
+    isLogin: true,
     remote: "/remote",
     curInterface: {
         id: "123123",
