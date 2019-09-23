@@ -20,6 +20,9 @@
                     <el-button type="danger" @click="removeHeaders(item)" icon="el-icon-delete" circle></el-button>
                 </el-col>
             </el-row>
+            <el-row>
+                <el-button v-on:click="saveHeaders">保存</el-button>
+            </el-row>
         </el-row>
 
         <el-row>
@@ -67,27 +70,46 @@
         },
         methods: {
             addHeaders: function () {
-                this.formModel.headers.push({
-                    name: '',
-                    value: ''
-                })
+                if (this.formModel.headers === null) {
+                    this.formModel.headers = [{
+                        name: "",
+                        value: ""
+                    }]
+                } else {
+                    this.formModel.headers.push({
+                        name: '',
+                        value: ''
+                    })
+                }
             },
             removeHeaders: function (header) {
+                localStorage.getItem("headers");
                 let index = this.formModel.headers.indexOf(header);
                 if (index !== -1) {
                     this.formModel.headers.splice(index, 1);
                 }
             },
+            saveHeaders: function () {
+                let s = JSON.stringify(this.formModel.headers);
+                localStorage.setItem("headers", s);
+            },
+            initHeaders: function () {
+                debugger;
+                let item = localStorage.getItem("headers");
+                let parse = JSON.parse(item);
+                this.formModel.headers = parse;
+            },
             saveRemote() {
                 localStorage.setItem("remote", this.remote)
             },
+
             initRemote() {
-                let remote = localStorage.getItem("remote")
-                this.remote = remote
+                this.remote = localStorage.getItem("remote")
             }
         },
         mounted() {
-            this.initRemote()
+            this.initRemote();
+            this.initHeaders();
         }
 
 
@@ -95,7 +117,7 @@
 </script>
 
 <style scoped>
-    .flex-box{
+    .flex-box {
         display: flex;
     }
 </style>
