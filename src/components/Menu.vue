@@ -57,25 +57,7 @@
         data() {
             return {
                 menuList: [
-                    {
-                        interfaceId: 0,
-                        index: "/index",
-                        name: "主页",
-                        children: [
-                            {
-                                interfaceId: 0,
-                                index: "/index",
-                                name: "主页",
-                                path: "/"
-                            },
-                            {
-                                interfaceId: 0,
-                                index: "/setting",
-                                name: "设置",
-                                path: "/"
-                            },
-                        ]
-                    }
+
                 ],
                 showMenu: []
             }
