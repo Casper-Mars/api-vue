@@ -1,5 +1,5 @@
 <template>
-    <Interface :interface="this.$store.getters.interface"/>
+    <Interface :interface="interface"/>
 </template>
 
 <script>
@@ -7,6 +7,9 @@
 
     export default {
         name: "InterfaceView",
+        props:{
+            interface:Object
+        },
         components: {
             Interface
         }

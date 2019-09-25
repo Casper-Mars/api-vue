@@ -2,7 +2,6 @@
     <div id="menu">
         <el-menu
                 :unique-opened=true
-                router
                 default-active="/"
         >
             <template v-for="(menu,index) in showMenu">
@@ -56,9 +55,7 @@
         },
         data() {
             return {
-                menuList: [
-
-                ],
+                menuList: [],
                 showMenu: []
             }
         },
@@ -81,22 +78,17 @@
              */
             filtrateMenu(keyword) {
                 this.initMenuShow();
-                console.log(this.menuList);
-                console.log(this.showMenu);
                 for (let i = 0; i < this.showMenu.length; i++) {
                     let menuItem = this.showMenu[i];
                     if (menuItem.name.indexOf(keyword) !== -1 || menuItem.index.indexOf(keyword) !== -1) {
                         continue
                     }
                     let hasMatched = this.filtrateChildren(menuItem.children, keyword)
-                    console.log(hasMatched);
                     if (!hasMatched) {
                         this.showMenu.splice(i, 1);
                         i--
                     }
                 }
-                console.log(this.menuList)
-                console.log(this.showMenu)
             },
             /**
              * 过滤二级菜单
@@ -119,7 +111,6 @@
                 return hasMatched
             },
             get: function (id) {
-                console.log(id);
                 if (id === '0' || id === 0) {
                     return;
                 }
@@ -146,7 +137,6 @@
                                 tmp.resp.jsonData = this.getJsonData(respList)[''];
                             }
                         }
-                    debugger;
                         this.$store.dispatch("updateInterface", tmp);
                     },
                     (data) => {
