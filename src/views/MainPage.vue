@@ -9,7 +9,7 @@
                     <Menu></Menu>
                 </el-aside>
                 <el-main>
-                    <Tab/>
+                    <TabView/>
                 </el-main>
             </el-container>
         </el-container>
@@ -20,13 +20,13 @@
 
     import Menu from '../components/Menu'
     import Header from '../components/Header'
-    import Tab from "../components/Tab";
+    import TabView from "./TabView";
 
     export default {
         components: {
             Header,
             Menu,
-            Tab
+            TabView
         },
         data() {
             return {

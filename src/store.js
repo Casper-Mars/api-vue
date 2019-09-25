@@ -11,12 +11,23 @@ const state = {
         {
             name: '1',
             title: '主页',
-            content: {}
+            content: {},
+            deleteAble:false,
+            isInterface:false
         },
         {
             name: '2',
             title: '设置',
-            content: {}
+            content: {},
+            deleteAble:false,
+            isInterface:false
+        },
+        {
+            name: '3',
+            title: '流程测试',
+            content: {},
+            deleteAble:false,
+            isInterface:false
         },
         /*{
             name: 3,
@@ -164,7 +175,9 @@ const mutations = {
         let tmp = {
             name:target.id,
             title:target.title,
-            content:target
+            content:target,
+            deleteAble:true,
+            isInterface:true
         };
         state.tabList.push(tmp);
         state.curTab = target.id;
@@ -173,20 +186,22 @@ const mutations = {
         state.isLogin = state;
     },
     removeTab(state,target){
-        if(target === '1' || target === '2'){
-            return;
-        }
         let tabs = state.tabList;
         let activeName = state.curTab;
+        let removeTarget;
         if (activeName === target) {
             tabs.forEach((tab, index) => {
                 if (tab.name === target) {
+                    removeTarget = tab;
                     let nextTab = tabs[index + 1] || tabs[index - 1];
                     if (nextTab) {
                         activeName = nextTab.name;
                     }
                 }
             });
+        }
+        if(!removeTarget.deleteAble){
+            return;
         }
         state.curTab = activeName;
         state.tabList = tabs.filter(tab => tab.name !== target);

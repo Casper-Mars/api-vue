@@ -1,16 +1,20 @@
 <template>
     <el-tabs v-model="this.$store.getters.curTab" type="card" closable @tab-remove="removeTab">
         <el-tab-pane
-            v-for="(item,index) in this.$store.getters.tabList"
-            :key="index"
-            :label="item.title"
-            :name="item.name"
+                v-for="(item,index) in this.$store.getters.tabList"
+                :key="index"
+                :label="item.title"
+                :name="item.name"
         >
+
             <div v-if="item.name==='1'">
                 <IndexPage/>
             </div>
             <div v-else-if="item.name === '2'">
                 <SettingView/>
+            </div>
+            <div v-else-if="item.name === '3'">
+                <SequenceTestView/>
             </div>
             <div v-else>
                 <InterfaceView :interface="item.content"/>
@@ -23,13 +27,15 @@
     import IndexPage from "../views/IndexPage";
     import SettingView from "../views/SettingView";
     import InterfaceView from "../views/InterfaceView";
+    import SequenceTestView from "./SequenceTestView";
     export default {
         name: "Tab",
-        components: {InterfaceView, SettingView, IndexPage},
+        components: {SequenceTestView, InterfaceView, SettingView, IndexPage},
         modules:{
-          IndexPage,
-          SettingView,
-          InterfaceView
+            IndexPage,
+            SettingView,
+            InterfaceView,
+            SequenceTestView
         },
         data(){
             return {
