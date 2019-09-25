@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import ta from "element-ui/src/locale/lang/ta";
 
 Vue.use(Vuex);
 
