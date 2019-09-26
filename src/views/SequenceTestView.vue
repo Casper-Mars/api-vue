@@ -4,7 +4,8 @@
             流程测试
         </h2>
         <div class="devi_line">分界线</div>
-        <div>
+        <TestNode :no="1" :name="'接口测试1'"/>
+       <!-- <div>
             <el-button>添加接口</el-button>
         </div>
         <div id="mountNode">
@@ -20,14 +21,19 @@
             <el-button @click="dialogVisible = false">取 消</el-button>
             <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
           </span>
-        </el-dialog>
+        </el-dialog>-->
     </div>
 </template>
 
 <script>
     import G6 from '@antv/g6';
+    import TestNode from "../components/test/TestNode";
     export default {
         name: "SequenceTestView",
+        components: {TestNode},
+        models:{
+          TestNode
+        },
         data() {
             return {
                 dialogVisible: false,
