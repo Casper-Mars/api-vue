@@ -42,6 +42,7 @@
                         this.dealMenu(menuTmp[i]);
                         this.menuList.push(menuTmp[i]);
                     }
+                    localStorage.setItem('menu', JSON.stringify(this.menuList))
                     this.initMenuShow()
                 },
                 (data) => {
