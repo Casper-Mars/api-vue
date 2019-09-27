@@ -26,6 +26,7 @@ function apiCall(url, method, headers, params, success, failure, error) {
             failure(data)
         }
     }).catch(function (err) {
+        console.log(err);
         if (err) {
             let res = err.response;
             ElementUI.Message.warning('api error, HTTP CODE: ' + res.status)

@@ -25,7 +25,7 @@
 
 <script>
     import EventBus from '../eventBus'
-
+    import getCurrentInterface from '../util/UtilTool'
     export default {
         name: "Menu",
         mounted() {
