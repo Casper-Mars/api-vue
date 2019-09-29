@@ -1,10 +1,12 @@
 <template>
-    <span>
+
+    <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
         <span>
             <span>{{label}}</span>
         </span>
-        <span>
-
+        <span v-if="refEnable" >
+            <el-input disabled>aaaa</el-input>
+            <el-button  type="primary">-></el-button>
         </span>
     </span>
 
@@ -13,11 +15,15 @@
 <script>
     export default {
         name: "TestNode",
-        props:{
-          label:""
+        props: {
+            label: String,
+            refEnable:Boolean
         },
-        data(){
-            return{
+        data() {
+            return {
+                parent: {
+                    path: "#1->sessionId"
+                }
             }
         }
     }
