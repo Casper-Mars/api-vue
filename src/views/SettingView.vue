@@ -9,7 +9,7 @@
                     <el-button type="primary" @click="addHeaders">添加请求头</el-button>
                 </el-col>
             </el-row>
-            <el-row v-for="(item,index) in formModel.headers" style="margin: 10px" :gutter="10">
+            <el-row v-for="(item,index) in this.$store.getters.headerList" style="margin: 10px" :gutter="10">
                 <el-col :span="4">
                     <el-input v-model="item.name"></el-input>
                 </el-col>
@@ -20,11 +20,7 @@
                     <el-button type="danger" @click="removeHeaders(item)" icon="el-icon-delete" circle></el-button>
                 </el-col>
             </el-row>
-            <el-row>
-                <el-button v-on:click="saveHeaders">保存</el-button>
-            </el-row>
         </el-row>
-
         <el-row>
             <el-row>
                 <el-col>
@@ -40,7 +36,6 @@
                 </div>
             </el-row>
         </el-row>
-
     </div>
 </template>
 
@@ -50,51 +45,21 @@
         data() {
             return {
                 remote: '',
-                formModel: {
-                    headers: [
-                        {
-                            name: "sessionId",
-                            value: "1"
-                        },
-                        {
-                            name: "content-type",
-                            value: "1"
-                        },
-                        {
-                            name: "token",
-                            value: "1"
-                        },
-                    ]
-                }
             }
         },
         methods: {
             addHeaders: function () {
-                if (this.formModel.headers === null) {
-                    this.formModel.headers = [{
-                        name: "",
-                        value: ""
-                    }]
-                } else {
-                    this.formModel.headers.push({
-                        name: '',
-                        value: ''
-                    })
-                }
+               this.$store.dispatch("addHeader");
             },
             removeHeaders: function (header) {
-                localStorage.getItem("headers");
-                let index = this.formModel.headers.indexOf(header);
-                if (index !== -1) {
-                    this.formModel.headers.splice(index, 1);
-                }
+                this.$store.dispatch("removeHeader",header);
             },
             saveHeaders: function () {
                 let s = JSON.stringify(this.formModel.headers);
                 localStorage.setItem("headers", s);
             },
             initHeaders: function () {
-                debugger;
+            debugger;
                 let item = localStorage.getItem("headers");
                 let parse = JSON.parse(item);
                 this.formModel.headers = parse;

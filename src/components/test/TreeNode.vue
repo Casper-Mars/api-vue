@@ -2,7 +2,7 @@
     <el-card>
         <el-container>
             <el-header>
-                <h2>#{{testNode.id}}----{{testNode.name}}({{testNode.path}})</h2>
+                <h2>#{{testNode.id}}----{{testNode.title}}({{testNode.requestUrl}})</h2>
             </el-header>
             <el-main>
                 <el-container>
@@ -10,17 +10,17 @@
                         <h3>请求头:</h3>
                     </el-header>
                     <el-main>
-                        <el-row v-for="(item,index) in testNode.headers" type="flex" justify="space-around" gutter="20">
+                        <el-row v-for="(item,index) in testNode.headers" type="flex" justify="space-around" gutter="20" style="padding: 10px">
                             <el-col :span="6">
                                 <el-input v-model="item.name"></el-input>
                             </el-col>
                             <el-col :span="6">
                                 <el-input v-model="item.value"></el-input>
                             </el-col>
-                            <el-col :span="6">
-                                <el-button type="primary" @click="addRef(item)">-></el-button>
+                            <el-col :span="1">
+                                <el-button type="primary" @click="addRef(testNode,item)">-></el-button>
                             </el-col>
-                            <el-col :span="6">
+                            <el-col :span="11">
                                 <el-input v-model="item.refPath"></el-input>
                             </el-col>
                         </el-row>
@@ -32,9 +32,9 @@
                     </el-header>
                     <el-main>
                         <el-tree
-                                :data="testNode.param"
+                                :data="testNode.param.tableData"
                                 :props="{children: 'children',label: 'name'}"
-                                node-key="id"
+                                node-key="name"
                                 default-expand-all
                                 :expand-on-click-node="false"
                                 :render-content="renderContent"
@@ -47,7 +47,7 @@
                     </el-header>
                     <el-main>
                         <json-viewer
-                                :value="testNode.resp"
+                                :value="testNode.resp.jsonData"
                                 :expand-depth=5
                                 copyable
                                 boxed
@@ -86,7 +86,7 @@
                 </span>
                 <span v-if="{ref}">
                   <el-button style="font-size: 12px;" type="text" >{data.refPath}</el-button>
-                  <el-button style="font-size: 12px;" type="text" on-click={ () => this.addRef(data) }>----></el-button>
+                  <el-button style="font-size: 12px;" type="text" on-click={ () => this.addRef(this.testNode,data) }>----></el-button>
                 </span>
             </span>
             );

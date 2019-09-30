@@ -94,7 +94,14 @@ Mock.mock(RegExp("/api/interface" + ".*"), 'get', (id) => {
         resp: {
             isJson: true,
             isArray: true,
-            jsonData: "",
+            jsonData: {
+                "code": "200",
+                "msg": "成功",
+                "object": {
+                    "user_sessionId": "1231312",
+                    "state": "1"
+                },
+            },
             tableData: [
                 {
                     name: "name",

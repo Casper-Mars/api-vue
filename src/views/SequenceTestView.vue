@@ -4,18 +4,23 @@
             流程测试
         </h2>
         <div class="devi_line">分界线</div>
-        <div>
-            <el-button v-on:click="dialogVisible = true">添加接口</el-button>
+        <div style="padding: 10px">
+            <el-button v-on:click="choiceInterface = true" style="margin: 5px">添加接口</el-button>
+            <el-button style="margin: 5px;">启动测试</el-button>
         </div>
-        <div class="process-list-box">
-            <el-card style="width: 600px;margin: 10px" v-for="(item, index) in processList">
-                <ProcessItem v-bind:item="item"></ProcessItem>
-            </el-card>
-        </div>
-
+        <div class="devi_line">分界线</div>
+        <!--        <el-collapse>-->
+        <!--            <el-collapse-item :title="item.title" v-for="(item,index) in testNodeList">-->
+        <!--                <TreeNode :test-node="item" :add-ref="addRef"/>-->
+        <!--            </el-collapse-item>-->
+        <!--        </el-collapse>-->
+        <el-row v-for="(item,index) in testNodeList" style="margin: 5px">
+            <TreeNode :test-node="item" :add-ref="addRef"/>
+        </el-row>
+        <!--选择接口-->
         <el-dialog
                 title="选择接口"
-                :visible.sync="dialogVisible"
+                :visible.sync="choiceInterface"
                 width="30%">
             <div>
                 <el-row class="tac">
@@ -37,21 +42,88 @@
                 </el-row>
             </div>
             <span slot="footer" class="dialog-footer">
-                        <el-button @click="dialogVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                        <el-button @click="choiceInterface = false">取 消</el-button>
+                        <el-button type="primary" @click="choiceInterface = false">确 定</el-button>
                     </span>
         </el-dialog>
-        <el-row v-for="(item,index) in this.$store.getters.testNodeList">
-            <TreeNode :test-node="item" :add-ref="addRef"/>
-        </el-row>
-
+        <!--选择前置的测试节点-->
+        <el-dialog
+                title="选择前置测试节点"
+                :visible.sync="choiceTestNode"
+        >
+            <div>
+                <el-table
+                        :data="tmpTestNodeList"
+                >
+                    <el-table-column
+                            prop="id"
+                            label="id"
+                    ></el-table-column>
+                    <el-table-column
+                            prop="title"
+                            label="名称"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                            fixed="right"
+                            label="操作"
+                    >
+                        <template slot-scope="scope">
+                            <el-button @click="showSelectNodeResp(scope.row)">选择</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                        <el-button @click="choiceTestNode = false">取 消</el-button>
+                        <el-button type="primary" @click="choiceTestNode = false">确 定</el-button>
+                    </span>
+        </el-dialog>
+        <!--选择前置测试节点的数据-->
+        <el-dialog
+                title="选择前置测试节点的数据"
+                :visible.sync="choiceTestNodeParam"
+        >
+            <div>
+                <el-table
+                        :border="true"
+                        :tree-props="{children:'children',hasChildren:'hasChildren'}"
+                        :data="curSelectNodeResp"
+                        row-key="id"
+                        default-expand-all
+                >
+                    <el-table-column
+                            prop="name"
+                            label="参数名称"
+                    ></el-table-column>
+                    <el-table-column
+                            prop="desc"
+                            label="参数描述"
+                    ></el-table-column>
+                    <el-table-column
+                            fixed="right"
+                            label="操作"
+                    >
+                        <template slot-scope="scope">
+                            <el-button @click="selectRefParam(scope.row)" v-if="scope.row.children===null">选择
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                        <el-button @click="choiceTestNodeParam = false">取 消</el-button>
+                        <el-button type="primary" @click="choiceTestNodeParam = false">确 定</el-button>
+                    </span>
+        </el-dialog>
 
     </div>
 </template>
 
 <script>
-    import ProcessItem from "../components/ProcessItem"
+    import ProcessItem from "../components/ProcessItem";
     import TreeNode from "../components/test/TreeNode";
+    import util from "../util/UtilTool"
 
     export default {
         name: "SequenceTestView",
@@ -61,10 +133,17 @@
         },
         data() {
             return {
-                dialogVisible: false,
+                choiceInterface: false,
+                choiceTestNode: false,
+                choiceTestNodeParam: false,
                 showMenu: [],
-                processList: [],
                 processIdSet: null,
+                testNodeList: [],
+                curTestNodeParam: {},
+                curTestNode: {},
+                curSelectNodeResp: [],
+                curSelectNode: {},
+                tmpTestNodeList: []
             }
         },
         methods: {
@@ -72,19 +151,112 @@
                 if (this.processIdSet.has(item.interfaceId)) {
                     return
                 }
-                this.processList.push(item)
-                this.processIdSet.add(item.interfaceId)
-                console.log(this.processList)
+                this.processIdSet.add(item.interfaceId);
+                this.$api.get(
+                    "/api/interface",
+                    {id: item.interfaceId},
+                    null,
+                    (data) => {
+                        console.log(data);
+                        util.getCurrentInterface(data);
+                        let target = data.data;
+                        target['headers'] = this.$store.getters.headerList.slice(0);
+                        target['id'] = item.interfaceId;
+                        /*处理参数，添加refPath属性*/
+                        this.addRefPathPropToParam(target.param.tableData);
+                        // this.$store.dispatch("addTestNode", target);
+                        this.testNodeList.push(target);
+                        this.choiceInterface = false;
+                    },
+                    (data) => {
+
+                    }
+                );
             },
-            addRef(item) {
-            debugger;
-                console.log(item);
-                item.refPath = "aaaaaa";
+            addRef(node, item) {
+                let children = item.children;
+                if (children !== undefined && children !== null) {
+                    return;
+                }
+                this.curTestNode = node;
+                this.curTestNodeParam = item;
+                this.tmpTestNodeList = [];
+                let testNodeList = this.testNodeList;
+                for (let i = 0; i < testNodeList.length; i++) {
+                    if (testNodeList[i].id !== node.id) {
+                        this.tmpTestNodeList.push(testNodeList[i]);
+                    } else {
+                        break;
+                    }
+                }
+                this.choiceTestNode = true;
+            },
+            addRefPathPropToParam(params) {
+                if (params === null) {
+                    return;
+                }
+                for (let i = 0; i < params.length; i++) {
+                    let children = params.children;
+                    if (children === undefined || children === null) {
+                        params[i].refPath = "";
+                        continue;
+                    }
+                    this.addRefPathPropToParam(children);
+                }
+            },
+            showSelectNodeResp(interfaceNode) {
+                this.curSelectNode = interfaceNode;
+                this.curSelectNodeResp = interfaceNode.resp.tableData;
+                this.choiceTestNodeParam = true;
+            },
+            selectRefParam(node) {
+                // debugger;
+                console.log(node);
+                let src = this.curSelectNodeResp;
+                let selectNodeId = this.curSelectNode.id;
+                let selectNodeName = this.curSelectNode.title;
+                let pre = "#" + selectNodeName + "(" + selectNodeId + ")->";
+                let path = null;
+                for (let i = 0; i < src.length; i++) {
+                    path = this.findParamPath(node.id, src[i]);
+                    if (path !== null) {
+                        this.curTestNodeParam.refPath = pre + path;
+                        break;
+                    }
+                }
+                this.choiceTestNode = false;
+                this.choiceTestNodeParam = false;
+
+            },
+            findParamPath(id, src) {
+                if (src === null) {
+                    return null;
+                }
+                if (src.id === id) {
+                    return src.name;
+                }
+                let children = src.children;
+                if (children !== null) {
+                    for (let i = 0; i < children.length; i++) {
+                        let path = this.findParamPath(id, children[i]);
+                        if (path === null) {
+                            continue;
+                        }
+                        return src.name + "->" + path;
+                    }
+                } else {
+                    return null;
+                }
+            }
+        },
+        computed: {
+            hasChildren: function (node) {
+                return node.children !== null;
             }
         },
         mounted() {
-            this.processIdSet = new Set()
-            let menu = JSON.parse(localStorage.getItem('menu'))
+            this.processIdSet = new Set();
+            let menu = JSON.parse(localStorage.getItem('menu'));
             console.log(menu);
             this.showMenu = menu
         }
