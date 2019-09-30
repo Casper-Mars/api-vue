@@ -3,150 +3,112 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
+
+const TestNode = [
+    {
+        name: "登录",
+        path: "/api/auth/login",
+        headers: [
+            {
+                name: "sessionId",
+                value: "",
+                refPath: ""
+            }
+        ],
+        param: [
+            {
+                name: "param",
+                refPath: "",
+                value: "",
+                children: [
+                    {
+                        name: "phone",
+                        refPath: "",
+                        value: ""
+                    },
+                    {
+                        name: "password",
+                        refPath: "",
+                        value: ""
+                    }
+                ]
+            }
+        ],
+        resp: {
+            "code": "200",
+            "msg": "成功",
+            "object": {
+                "user_sessionId": "1231312",
+                "state": "1"
+            }
+        }
+    },
+    {
+        name: "订单列表",
+        path: "/api/order/list",
+        headers: [
+            {
+                name: "sessionId",
+                value: "",
+                refPath: "#1->object->user_sessionId"
+            }
+        ],
+        param: [
+            {
+                name: "state",
+                value: "",
+                refPath: "#1->object->state"
+            },
+            {
+                name: "pageSize",
+                value: "10",
+                refPath: ""
+            },
+            {
+                name: "pageNum",
+                value: "1",
+                refPath: ""
+            }
+        ],
+        resp: {
+            "code": "200",
+            "msg": "成功",
+            "object": {
+                "user_sessionId": "1231312"
+            }
+        }
+    }
+
+]
+
+
 const state = {
     isLogin: false,
     remote: "/remote",
-    curTab:'1',
+    curTab: '1',
+    testNodeList: TestNode,
     tabList: [
         {
             name: '1',
             title: '主页',
             content: {},
-            deleteAble:false,
-            isInterface:false
+            deleteAble: false,
+            isInterface: false
         },
         {
             name: '2',
             title: '设置',
             content: {},
-            deleteAble:false,
-            isInterface:false
+            deleteAble: false,
+            isInterface: false
         },
         {
             name: '3',
             title: '流程测试',
             content: {},
-            deleteAble:false,
-            isInterface:false
+            deleteAble: false,
+            isInterface: false
         },
-        /*{
-            name: 3,
-            title: '测试接口',
-            content: {
-                id: "123123",
-                title: "测试接口",
-                requestMethod: "post",
-                requestUrl: "/api/member/list",
-                contentType: "application/json",
-                param: {
-                    isJson: true,
-                    isArray: false,
-                    jsonData: {"name": "name", "desc": "姓名", "type": "String"},
-                    tableData: [
-                        {
-                            id: 10,
-                            name: "param",
-                            desc: "学生信息",
-                            isRequire: "必传",
-                            type: "StudentDTO",
-                            isArray: false,
-                            isEntity: true,
-                            children: [
-                                {
-                                    id: 1,
-                                    name: "name",
-                                    desc: "姓名",
-                                    isRequire: "必传",
-                                    type: "String",
-                                    isArray: false,
-                                    isEntity: false,
-                                    children: [],
-                                },
-                                {
-                                    id: 2,
-                                    name: "age",
-                                    desc: "年龄",
-                                    isRequire: "必传",
-                                    type: "Integer",
-                                    isArray: false,
-                                    isEntity: false,
-                                    children: [],
-                                },
-                                {
-                                    id: 3,
-                                    name: "teacher",
-                                    desc: "导师信息",
-                                    isRequire: "必传",
-                                    type: "TeacherDTO",
-                                    isArray: false,
-                                    isEntity: true,
-                                    children: [
-                                        {
-                                            id: 4,
-                                            name: "name",
-                                            desc: "姓名",
-                                            isRequire: "必传",
-                                            type: "String",
-                                            isArray: false,
-                                            isEntity: false,
-                                            children: [],
-                                        },
-                                    ]
-                                },
-                            ]
-                        },
-                    ],
-                },
-                resp: {
-                    isJson: true,
-                    isArray: false,
-                    jsonData: {"name": "name", "desc": "姓名", "type": "String"},
-                    tableData: [
-                        {
-                            id: 1,
-                            name: "code",
-                            type: "String",
-                            desc: "响应码",
-                            isArray: false,
-                            isEntity: false,
-                            isRequire: "",
-                            children: [],
-                        },
-                        {
-                            id: 2,
-                            name: "msg",
-                            type: "String",
-                            desc: "响应信息",
-                            isArray: false,
-                            isEntity: false,
-                            isRequire: "",
-                            children: [],
-                        },
-                        {
-                            id: 3,
-                            name: "data",
-                            type: "DTO",
-                            desc: "响应数据",
-                            isArray: false,
-                            isEntity: false,
-                            isRequire: "",
-                            children: [
-                                {
-                                    id: 4,
-                                    name: "name",
-                                    type: "String",
-                                    desc: "姓名",
-                                    isArray: false,
-                                    isEntity: false,
-                                    isRequire: "",
-                                    children: [],
-                                },
-                            ]
-                        }
-                    ]
-                },
-            },
-        }*/
     ],
 };
 
@@ -157,27 +119,31 @@ const getters = {
     tabList() {
         return state.tabList;
     },
-    curTab(){
+    curTab() {
         return state.curTab;
+    },
+    testNodeList() {
+        return state.testNodeList;
     }
+
 
 };
 const mutations = {
     setInterface(state, target) {
         /*判断标签是否存在*/
         let tabs = state.tabList;
-        debugger;
-        for (let i = 0;i<tabs.length;i++){
+    debugger;
+        for (let i = 0; i < tabs.length; i++) {
             if (tabs[i].name === target.id) {
                 return;
             }
         }
         let tmp = {
-            name:target.id,
-            title:target.title,
-            content:target,
-            deleteAble:true,
-            isInterface:true
+            name: target.id,
+            title: target.title,
+            content: target,
+            deleteAble: true,
+            isInterface: true
         };
         state.tabList.push(tmp);
         state.curTab = target.id;
@@ -185,7 +151,7 @@ const mutations = {
     openDev(state) {
         state.isLogin = state;
     },
-    removeTab(state,target){
+    removeTab(state, target) {
         let tabs = state.tabList;
         let activeName = state.curTab;
         let removeTarget;
@@ -200,7 +166,7 @@ const mutations = {
                 }
             });
         }
-        if(!removeTarget.deleteAble){
+        if (!removeTarget.deleteAble) {
             return;
         }
         state.curTab = activeName;
@@ -212,8 +178,8 @@ const actions = {
     updateInterface(context, target) {
         context.commit("setInterface", target);
     },
-    removeTab(context,target){
-        context.commit("removeTab",target);
+    removeTab(context, target) {
+        context.commit("removeTab", target);
     }
 };
 
@@ -221,5 +187,5 @@ export default new Vuex.Store({
     state,
     getters,
     mutations,
-    actions
+    actions,
 });
