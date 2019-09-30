@@ -56,8 +56,22 @@
                     </el-main>
                 </el-container>
             </el-main>
+            <el-footer>
+                <el-button type="danger" round @click="removeNode(testNode)">删除</el-button>
+            </el-footer>
         </el-container>
     </el-card>
+    <!--设置参数的值-->
+    <el-dialog
+            title="设置值"
+            :visible.sync="choiceTestNodeParamValue"
+    >
+        <el-input v-model="curParamValue"/>
+        <span slot="footer" class="dialog-footer">
+                        <el-button @click="choiceTestNodeParamValue = false">取 消</el-button>
+                        <el-button type="primary" @click="setValue">确 定</el-button>
+                    </span>
+    </el-dialog>
 </template>
 
 <script type="text/jsx">
@@ -67,10 +81,13 @@
             label: String,
             refEnable: Boolean,
             addRef: Function,
+            addValue:Function,
+            removeNode:Function,
             testNode: Object
         },
         data() {
             return {
+                choiceTestNodeParamValue:false,
                 parent: {
                     path: "#1->sessionId"
                 }
@@ -82,10 +99,12 @@
                 return (
                     <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
                 <span>
-                  <span>{data.name}</span>
+                  <span>{data.name}:{data.value}</span>
                 </span>
                 <span v-if="{ref}">
                   <el-button style="font-size: 12px;" type="text" >{data.refPath}</el-button>
+                  <el-button style="font-size: 12px;" type="text" on-click={ () => this.addValue(this.testNode,data) }>添加值</el-button>
+                  <!--<el-button style="font-size: 12px;" type="text" on-click={ () => this.addValue(this.testNode,data) }>添加值</el-button>-->
                   <el-button style="font-size: 12px;" type="text" on-click={ () => this.addRef(this.testNode,data) }>----></el-button>
                 </span>
             </span>

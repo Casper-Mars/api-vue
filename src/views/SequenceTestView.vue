@@ -15,7 +15,7 @@
         <!--            </el-collapse-item>-->
         <!--        </el-collapse>-->
         <el-row v-for="(item,index) in testNodeList" style="margin: 5px">
-            <TreeNode :test-node="item" :add-ref="addRef"/>
+            <TreeNode :test-node="item" :add-ref="addRef" :add-value="addValue" :remove-node="removeNode"/>
         </el-row>
         <!--选择接口-->
         <el-dialog
@@ -116,7 +116,17 @@
                         <el-button type="primary" @click="choiceTestNodeParam = false">确 定</el-button>
                     </span>
         </el-dialog>
-
+        <!--设置参数的值-->
+        <el-dialog
+                title="设置值"
+                :visible.sync="choiceTestNodeParamValue"
+        >
+            <el-input v-model="curParamValue"/>
+            <span slot="footer" class="dialog-footer">
+                        <el-button @click="choiceTestNodeParamValue = false">取 消</el-button>
+                        <el-button type="primary" @click="setValue">确 定</el-button>
+                    </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -136,6 +146,7 @@
                 choiceInterface: false,
                 choiceTestNode: false,
                 choiceTestNodeParam: false,
+                choiceTestNodeParamValue: false,
                 showMenu: [],
                 processIdSet: null,
                 testNodeList: [],
@@ -143,7 +154,8 @@
                 curTestNode: {},
                 curSelectNodeResp: [],
                 curSelectNode: {},
-                tmpTestNodeList: []
+                tmpTestNodeList: [],
+                curParamValue: "",
             }
         },
         methods: {
@@ -199,6 +211,7 @@
                     let children = params.children;
                     if (children === undefined || children === null) {
                         params[i].refPath = "";
+                        params[i].value = "";
                         continue;
                     }
                     this.addRefPathPropToParam(children);
@@ -247,7 +260,25 @@
                 } else {
                     return null;
                 }
+            },
+            addValue(node, data) {
+                this.curTestNode = node;
+                this.curTestNodeParam = data;
+                this.curParamValue = "";
+                this.choiceTestNodeParamValue = true;
+            },
+            setValue() {
+                this.curTestNodeParam.value = this.curParamValue;
+                this.choiceTestNodeParamValue = false;
+            },
+            removeNode(node) {
+                let index = this.testNodeList.indexOf(node);
+                if (index !== -1) {
+                    this.testNodeList.splice(index, 1);
+                }
+                this.processIdSet.delete(node.id);
             }
+
         },
         computed: {
             hasChildren: function (node) {
