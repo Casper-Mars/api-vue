@@ -122,10 +122,6 @@
                 :visible.sync="seqTestPanel"
         >
             <TestStep :test-node-list="testNodeList"/>
-            <span slot="footer" class="dialog-footer">
-                        <el-button @click="seqTestPanel = false">取 消</el-button>
-                        <el-button type="primary" @click="seqTestPanel = false">确 定</el-button>
-                    </span>
         </el-dialog>
     </div>
 </template>
@@ -172,7 +168,7 @@
                         console.log(data);
                         util.getCurrentInterface(data);
                         let target = data.data;
-                        target['headers'] = this.$store.getters.headerList.slice(0);
+                        target['headers'] = this.getHeaders();
                         target['id'] = item.interfaceId;
                         /*处理参数，添加refPath属性*/
                         this.addRefPathPropToParam(target.param.tableData);
@@ -183,6 +179,18 @@
 
                     }
                 );
+            },
+            getHeaders: function () {
+                let headerTemp = this.$store.getters.headerList;
+                let target = [];
+                for (let i = 0; i < headerTemp.length; i++) {
+                    let tmp = {};
+                    tmp['name'] = headerTemp[i].name;
+                    tmp['value'] = "";
+                    tmp['refPath'] = "";
+                    target.push(tmp);
+                }
+                return target;
             },
             addRef(node, item) {
                 let children = item.children;
@@ -265,6 +273,10 @@
                 this.processIdSet.delete(node.id);
             },
             showNodeList() {
+                if (this.testNodeList.length === 0) {
+                    this.$message.error("请先添加接口");
+                    return;
+                }
                 this.seqTestPanel = true;
             }
         },

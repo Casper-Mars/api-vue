@@ -107,7 +107,6 @@
                 let address = localStorage.getItem("remote");
                 let headers = this.header;
                 let params = JSON.parse(this.param);
-            debugger;
                 this.$api.post(
                     "/api/test/one",
                     {

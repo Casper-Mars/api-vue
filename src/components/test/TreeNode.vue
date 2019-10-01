@@ -1,67 +1,70 @@
 <template>
     <el-card>
-        <el-container>
-            <el-header>
-                <h2>#{{testNode.id}}----{{testNode.title}}({{testNode.requestUrl}})</h2>
-            </el-header>
-            <el-main>
-                <el-container>
-                    <el-header>
-                        <h3>请求头:</h3>
-                    </el-header>
-                    <el-main>
-                        <el-row v-for="(item,index) in testNode.headers" :key="index" type="flex" justify="space-around"
-                                gutter="20"
-                                style="padding: 10px">
-                            <el-col :span="6">
-                                <el-input v-model="item.name"></el-input>
-                            </el-col>
-                            <el-col :span="6">
-                                <el-input v-model="item.value"></el-input>
-                            </el-col>
-                            <el-col :span="1">
-                                <el-button type="primary" @click="addRef(testNode,item)">-></el-button>
-                            </el-col>
-                            <el-col :span="11">
-                                <el-input v-model="item.refPath"></el-input>
-                            </el-col>
-                        </el-row>
-                    </el-main>
-                </el-container>
-                <el-container>
-                    <el-header>
-                        <h3>参数:</h3>
-                    </el-header>
-                    <el-main>
-                        <el-tree
-                                :data="testNode.param.tableData"
-                                :props="{children: 'children',label: 'name'}"
-                                node-key="name"
-                                default-expand-all
-                                :expand-on-click-node="false"
-                                :render-content="renderContent"
-                        ></el-tree>
-                    </el-main>
-                </el-container>
-                <el-container>
-                    <el-header>
-                        <h3>返回值:</h3>
-                    </el-header>
-                    <el-main>
-                        <json-viewer
-                                :value="testNode.resp.jsonData"
-                                :expand-depth=5
-                                copyable
-                                boxed
-                                sor>
-                        </json-viewer>
-                    </el-main>
-                </el-container>
-            </el-main>
-            <el-footer>
-                <el-button type="danger" round @click="removeNode(testNode)">删除</el-button>
-            </el-footer>
-        </el-container>
+        <div slot="header" >
+            <span>#{{testNode.id}}----{{testNode.title}}({{testNode.requestUrl}})</span>
+            <el-button style="float: right; "  type="danger" @click="removeNode(testNode)">删除</el-button>
+        </div>
+        <div>
+            <el-container>
+                <el-header>
+                    <h2>#{{testNode.id}}----{{testNode.title}}({{testNode.requestUrl}})</h2>
+                </el-header>
+                <el-main>
+                    <el-container>
+                        <el-header>
+                            <h3>请求头:</h3>
+                        </el-header>
+                        <el-main>
+                            <el-row v-for="(item,index) in testNode.headers" :key="index" type="flex" justify="space-around"
+                                    gutter="20"
+                                    style="padding: 10px">
+                                <el-col :span="6">
+                                    <el-input v-model="item.name"></el-input>
+                                </el-col>
+                                <el-col :span="6">
+                                    <el-input v-model="item.value"></el-input>
+                                </el-col>
+                                <el-col :span="1">
+                                    <el-button type="primary" @click="addRef(testNode,item)">-></el-button>
+                                </el-col>
+                                <el-col :span="11">
+                                    <el-input v-model="item.refPath"></el-input>
+                                </el-col>
+                            </el-row>
+                        </el-main>
+                    </el-container>
+                    <el-container>
+                        <el-header>
+                            <h3>参数:</h3>
+                        </el-header>
+                        <el-main>
+                            <el-tree
+                                    :data="testNode.param.tableData"
+                                    :props="{children: 'children',label: 'name'}"
+                                    node-key="name"
+                                    default-expand-all
+                                    :expand-on-click-node="false"
+                                    :render-content="renderContent"
+                            ></el-tree>
+                        </el-main>
+                    </el-container>
+                    <el-container>
+                        <el-header>
+                            <h3>返回值:</h3>
+                        </el-header>
+                        <el-main>
+                            <json-viewer
+                                    :value="testNode.resp.jsonData"
+                                    :expand-depth=5
+                                    copyable
+                                    boxed
+                                    sor>
+                            </json-viewer>
+                        </el-main>
+                    </el-container>
+                </el-main>
+            </el-container>
+        </div>
         <!--设置参数的值-->
         <el-dialog
                 title="设置值"
