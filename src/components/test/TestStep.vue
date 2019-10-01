@@ -45,15 +45,17 @@
             testNodeList: Array,
         },
         methods: {
-            doTestSequence: function () {
+            async doTestSequence() {
+                console.log(this.testNodeList);
                 let testNodeList = this.testNodeList;
                 this.isComplete = false;
                 this.isSuccess = false;
                 try {
                     for (let i = 0; i < testNodeList.length; i++) {
                         this.curActiveStep = i + 1;
-                        this.doTest(testNodeList[i]);
+                        await this.doTest(testNodeList[i]);
                     }
+                    this.isSuccess = true;
                 } catch (e) {
                     this.isSuccess = false;
                     this.errorTitle = e;
@@ -62,7 +64,7 @@
                 }
 
             },
-            doTest: async function (testNode) {
+            async doTest(testNode) {
                 let id = testNode.id;
                 let address = localStorage.getItem("remote");
                 let headers = this.getHeader(testNode);
@@ -74,7 +76,6 @@
                     headers: headers,
                     params: params
                 };
-            debugger
                 let res = await this.$axios.post("/api/test/one", data);
                 let resp = res.data;
                 if (resp.code === 200 && resp.data.stateCode === "200") {
@@ -136,13 +137,10 @@
                 if (refPath === null || refPath === "") {
                     return value;
                 }
-            debugger;
-
                 /*获取目标测试节点的返回值*/
                 return this._getRefNodeValue(refPath);
             },
             _getRefNodeValue(refPath) {
-            debugger;
                 /*切割出参数参照链*/
                 let propList = refPath.split("->");
                 /*分解出参照的id*/
@@ -160,7 +158,12 @@
                 /*遍历参数参照*/
                 let tmp = targetTestNode.resp.jsonData;
                 for (let i = 0; i < propList.length; i++) {
-                    tmp = tmp[propList[i]];
+                    let value = tmp[propList[i]];
+                    if (value instanceof Array) {
+                        tmp = value[0];
+                    } else {
+                        tmp = value;
+                    }
                     if (tmp === null) {
                         /*抛出异常，提示用户该节点取值失败*/
                         throw "参照的节点：" + id + " 的参数：" + propList[i] + " 不存在值";

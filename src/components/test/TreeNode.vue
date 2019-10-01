@@ -16,7 +16,7 @@
                         </el-header>
                         <el-main>
                             <el-row v-for="(item,index) in testNode.headers" :key="index" type="flex" justify="space-around"
-                                    gutter="20"
+                                    :gutter="20"
                                     style="padding: 10px">
                                 <el-col :span="6">
                                     <el-input v-model="item.name"></el-input>

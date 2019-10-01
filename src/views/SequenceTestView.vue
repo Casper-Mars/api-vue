@@ -277,6 +277,7 @@
                     this.$message.error("请先添加接口");
                     return;
                 }
+                // console.log(this.testNodeList);
                 this.seqTestPanel = true;
             }
         },
