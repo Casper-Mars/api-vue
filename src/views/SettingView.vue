@@ -59,7 +59,6 @@
                 localStorage.setItem("headers", s);
             },
             initHeaders: function () {
-            debugger;
                 let item = localStorage.getItem("headers");
                 let parse = JSON.parse(item);
                 this.formModel.headers = parse;

@@ -10,7 +10,9 @@
                         <h3>请求头:</h3>
                     </el-header>
                     <el-main>
-                        <el-row v-for="(item,index) in testNode.headers" type="flex" justify="space-around" gutter="20" style="padding: 10px">
+                        <el-row v-for="(item,index) in testNode.headers" :key="index" type="flex" justify="space-around"
+                                gutter="20"
+                                style="padding: 10px">
                             <el-col :span="6">
                                 <el-input v-model="item.name"></el-input>
                             </el-col>
@@ -60,18 +62,19 @@
                 <el-button type="danger" round @click="removeNode(testNode)">删除</el-button>
             </el-footer>
         </el-container>
-    </el-card>
-    <!--设置参数的值-->
-    <el-dialog
-            title="设置值"
-            :visible.sync="choiceTestNodeParamValue"
-    >
-        <el-input v-model="curParamValue"/>
-        <span slot="footer" class="dialog-footer">
+        <!--设置参数的值-->
+        <el-dialog
+                title="设置值"
+                :visible.sync="choiceTestNodeParamValue"
+        >
+            <el-input v-model="curData.value"/>
+            <span slot="footer" class="dialog-footer">
                         <el-button @click="choiceTestNodeParamValue = false">取 消</el-button>
-                        <el-button type="primary" @click="setValue">确 定</el-button>
+                        <el-button type="primary" @click="choiceTestNodeParamValue=false;curData={};">确 定</el-button>
                     </span>
-    </el-dialog>
+        </el-dialog>
+    </el-card>
+
 </template>
 
 <script type="text/jsx">
@@ -81,35 +84,48 @@
             label: String,
             refEnable: Boolean,
             addRef: Function,
-            addValue:Function,
-            removeNode:Function,
+            addValue: Function,
+            removeNode: Function,
             testNode: Object
         },
         data() {
             return {
-                choiceTestNodeParamValue:false,
+                choiceTestNodeParamValue: false,
+                curData: {},
                 parent: {
                     path: "#1->sessionId"
                 }
             }
         },
-        methods:{
+        methods: {
             renderContent: function (h, {node, data, store}) {
                 let ref = data.children === null || data.children === undefined;
                 return (
-                    <span style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
+                    <span
+                        style="flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;">
                 <span>
                   <span>{data.name}:{data.value}</span>
                 </span>
-                <span v-if="{ref}">
-                  <el-button style="font-size: 12px;" type="text" >{data.refPath}</el-button>
-                  <el-button style="font-size: 12px;" type="text" on-click={ () => this.addValue(this.testNode,data) }>添加值</el-button>
-                  <!--<el-button style="font-size: 12px;" type="text" on-click={ () => this.addValue(this.testNode,data) }>添加值</el-button>-->
-                  <el-button style="font-size: 12px;" type="text" on-click={ () => this.addRef(this.testNode,data) }>----></el-button>
+                <span>
+                  <el-button style="font-size: 12px;" type="text">{data.refPath}</el-button>
+                  <el-button style="font-size: 12px;" type="text"
+                             on-click={() => this.setValue(data)}>添加值</el-button>
+                    <el-button style="font-size: 12px;" type="text"
+                               on-click={() => this.addRef(this.testNode, data)}>添加引用</el-button>
+                <el-button style="font-size: 12px;" type="text"
+                           on-click={() => this.clearRef(data)}>删除引用</el-button>
                 </span>
             </span>
-            );
+                );
+            },
+            setValue(data) {
+                this.curData = data;
+                this.choiceTestNodeParamValue = true;
+            },
+            clearRef(data) {
+                data.refPath = "";
             }
+
         }
     }
 </script>

@@ -6,7 +6,7 @@
         <div class="devi_line">分界线</div>
         <div style="padding: 10px">
             <el-button v-on:click="choiceInterface = true" style="margin: 5px">添加接口</el-button>
-            <el-button style="margin: 5px;">启动测试</el-button>
+            <el-button style="margin: 5px;" @click="showNodeList">启动测试</el-button>
         </div>
         <div class="devi_line">分界线</div>
         <!--        <el-collapse>-->
@@ -15,7 +15,7 @@
         <!--            </el-collapse-item>-->
         <!--        </el-collapse>-->
         <el-row v-for="(item,index) in testNodeList" style="margin: 5px">
-            <TreeNode :test-node="item" :add-ref="addRef" :add-value="addValue" :remove-node="removeNode"/>
+            <TreeNode :test-node="item" :add-ref="addRef" :remove-node="removeNode"/>
         </el-row>
         <!--选择接口-->
         <el-dialog
@@ -116,30 +116,30 @@
                         <el-button type="primary" @click="choiceTestNodeParam = false">确 定</el-button>
                     </span>
         </el-dialog>
-        <!--设置参数的值-->
+        <!--序列测试面板-->
         <el-dialog
-                title="设置值"
-                :visible.sync="choiceTestNodeParamValue"
+                title="序列测试"
+                :visible.sync="seqTestPanel"
         >
-            <el-input v-model="curParamValue"/>
+            <TestStep :test-node-list="testNodeList"/>
             <span slot="footer" class="dialog-footer">
-                        <el-button @click="choiceTestNodeParamValue = false">取 消</el-button>
-                        <el-button type="primary" @click="setValue">确 定</el-button>
+                        <el-button @click="seqTestPanel = false">取 消</el-button>
+                        <el-button type="primary" @click="seqTestPanel = false">确 定</el-button>
                     </span>
         </el-dialog>
     </div>
 </template>
 
 <script>
-    import ProcessItem from "../components/ProcessItem";
     import TreeNode from "../components/test/TreeNode";
     import util from "../util/UtilTool"
+    import TestStep from "../components/test/TestStep";
 
     export default {
         name: "SequenceTestView",
         components: {
-            ProcessItem,
-            TreeNode
+            TreeNode,
+            TestStep
         },
         data() {
             return {
@@ -155,7 +155,7 @@
                 curSelectNodeResp: [],
                 curSelectNode: {},
                 tmpTestNodeList: [],
-                curParamValue: "",
+                seqTestPanel: false,
             }
         },
         methods: {
@@ -176,7 +176,6 @@
                         target['id'] = item.interfaceId;
                         /*处理参数，添加refPath属性*/
                         this.addRefPathPropToParam(target.param.tableData);
-                        // this.$store.dispatch("addTestNode", target);
                         this.testNodeList.push(target);
                         this.choiceInterface = false;
                     },
@@ -223,8 +222,6 @@
                 this.choiceTestNodeParam = true;
             },
             selectRefParam(node) {
-                // debugger;
-                console.log(node);
                 let src = this.curSelectNodeResp;
                 let selectNodeId = this.curSelectNode.id;
                 let selectNodeName = this.curSelectNode.title;
@@ -239,7 +236,6 @@
                 }
                 this.choiceTestNode = false;
                 this.choiceTestNodeParam = false;
-
             },
             findParamPath(id, src) {
                 if (src === null) {
@@ -261,34 +257,20 @@
                     return null;
                 }
             },
-            addValue(node, data) {
-                this.curTestNode = node;
-                this.curTestNodeParam = data;
-                this.curParamValue = "";
-                this.choiceTestNodeParamValue = true;
-            },
-            setValue() {
-                this.curTestNodeParam.value = this.curParamValue;
-                this.choiceTestNodeParamValue = false;
-            },
             removeNode(node) {
                 let index = this.testNodeList.indexOf(node);
                 if (index !== -1) {
                     this.testNodeList.splice(index, 1);
                 }
                 this.processIdSet.delete(node.id);
-            }
-
-        },
-        computed: {
-            hasChildren: function (node) {
-                return node.children !== null;
+            },
+            showNodeList() {
+                this.seqTestPanel = true;
             }
         },
         mounted() {
             this.processIdSet = new Set();
             let menu = JSON.parse(localStorage.getItem('menu'));
-            console.log(menu);
             this.showMenu = menu
         }
     }
