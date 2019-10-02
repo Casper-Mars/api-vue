@@ -26,6 +26,7 @@
 <script>
     import EventBus from '../eventBus'
     import getCurrentInterface from '../util/UtilTool'
+
     export default {
         name: "Menu",
         mounted() {
@@ -42,8 +43,8 @@
                         this.dealMenu(menuTmp[i]);
                         this.menuList.push(menuTmp[i]);
                     }
-                    localStorage.setItem('menu', JSON.stringify(this.menuList))
-                    this.initMenuShow()
+                    this.$store.dispatch("setMenuList", this.menuList);
+                    this.initMenuShow();
                 },
                 (data) => {
 

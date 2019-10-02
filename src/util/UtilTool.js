@@ -5,6 +5,14 @@ export default {
         return JSON.stringify(data, null, 4)
     },
 
+    /*除去url中出现的“//”，转为“/”*/
+    formatUrl: function (url) {
+        if (url.indexOf("http://") === 1) {
+            return url.substring(1, url.length)
+        }
+        return url.replace("//", "/");
+    },
+
     /**
      *获取id
      */

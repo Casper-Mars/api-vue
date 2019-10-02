@@ -29,7 +29,7 @@
                                 :unique-opened="true"
                                 default-active="1"
                                 class="el-menu-vertical-demo">
-                            <el-submenu v-for="(item, index) in showMenu" :index="String(index)">
+                            <el-submenu v-for="(item, index) in this.$store.getters.menuList" :index="String(index)">
                                 <template slot="title">{{item.name}}</template>
                                 <el-menu-item v-for="(child, cIndex) in item.children"
                                               @click="addProcess(child)"
@@ -283,8 +283,7 @@
         },
         mounted() {
             this.processIdSet = new Set();
-            let menu = JSON.parse(localStorage.getItem('menu'));
-            this.showMenu = menu
+            this.showMenu = this.$store.getters.menuList;
         }
     }
 </script>
@@ -299,9 +298,4 @@
         text-align: center;
     }
 
-    .process-list-box {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
 </style>

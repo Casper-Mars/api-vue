@@ -30,6 +30,9 @@
 </template>
 
 <script>
+    import config from '../../../vue.config'
+    import util from '../../util/UtilTool'
+
     export default {
         name: "TestStep",
         data() {
@@ -76,7 +79,8 @@
                     headers: headers,
                     params: params
                 };
-                let res = await this.$axios.post("/api/test/one", data);
+                let url = config.publicPath + "/api/test/one";
+                let res = await this.$axios.post(util.formatUrl(url), data);
                 let resp = res.data;
                 if (resp.code === 200 && resp.data.stateCode === "200") {
                     testNode.resp.jsonData = JSON.parse(res.data.data.respondStr);
