@@ -7,7 +7,11 @@
                     </el-step>
                 </el-steps>
             </el-main>
+            <el-footer>
+                <el-button type="primary" @click="doTestSequence" :loading="testing">测试</el-button>
+            </el-footer>
         </el-container>
+
         <el-container v-if="isComplete">
             <el-main v-if="isSuccess">
                 <el-alert type="success" title="测试完成" :closable="false"></el-alert>
@@ -22,10 +26,9 @@
                         sor>
                 </json-viewer>
             </el-main>
+
         </el-container>
-        <el-footer>
-            <el-button type="primary" @click="doTestSequence">测试</el-button>
-        </el-footer>
+
     </el-container>
 </template>
 
@@ -42,6 +45,7 @@
                 isComplete: false,
                 errorTitle: "测试中断，xx接口测试出错",
                 errorResp: {code: "200", msg: "成功", object: {}},
+                testing: false,
             }
         },
         props: {
@@ -49,7 +53,7 @@
         },
         methods: {
             async doTestSequence() {
-                console.log(this.testNodeList);
+                this.testing = true;
                 let testNodeList = this.testNodeList;
                 this.isComplete = false;
                 this.isSuccess = false;
@@ -64,6 +68,7 @@
                     this.errorTitle = e;
                 } finally {
                     this.isComplete = true;
+                    this.testing = false;
                 }
 
             },
@@ -87,7 +92,6 @@
                 } else {
                     throw "测试节点：" + testNode.id + " 请求失败";
                 }
-                console.log(res);
             },
             getHeader: function (testNode) {
                 let headers = testNode.headers;
@@ -99,14 +103,6 @@
                     header.push(tmp);
                 }
                 return header;
-            },
-            _getHeaderValue(header) {
-                let value = header.value;
-                let refPath = header.refPath;
-                if (refPath === null) {
-                    return value;
-                }
-                return this._getRefNodeValue(refPath);
             },
             getParam: function (testNode) {
                 /*获取存放参数的对象*/
