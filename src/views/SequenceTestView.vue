@@ -193,6 +193,7 @@
                 return target;
             },
             addRef(node, item) {
+            // debugger;
                 let children = item.children;
                 if (children !== undefined && children !== null) {
                     return;
@@ -230,6 +231,7 @@
                 this.choiceTestNodeParam = true;
             },
             selectRefParam(node) {
+            // debugger;
                 let src = this.curSelectNodeResp;
                 let selectNodeId = this.curSelectNode.id;
                 let selectNodeName = this.curSelectNode.title;
@@ -261,9 +263,8 @@
                         }
                         return src.name + "->" + path;
                     }
-                } else {
-                    return null;
                 }
+                return null;
             },
             removeNode(node) {
                 let index = this.testNodeList.indexOf(node);
