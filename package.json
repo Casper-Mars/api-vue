@@ -11,7 +11,7 @@
     "core-js": "^2.6.5",
     "element-ui": "^2.11.1",
     "mockjs": "^1.0.0",
-    "npm": "^6.10.3",
+    "npm": "^6.13.4",
     "register-service-worker": "^1.6.2",
     "unsplash-js": "^5.0.0",
     "vue": "^2.6.10",
